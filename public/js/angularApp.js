@@ -1,6 +1,7 @@
 var app = angular.module('tuscany', [
 	'ui.router',
-	'homeController'
+	'homeController',
+	'loginController'
 ]);
 
 app.config([

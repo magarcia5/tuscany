@@ -21,7 +21,12 @@ function(
 			url: '/register',
 			templateUrl: 'views/pages/register.html',
 			controller: 'AuthCtrl'
-		});
+		})
+		.state('login', {
+			url: '/login',
+			templateUrl: 'views/pages/login.html',
+			controller: 'AuthCtrl'
+		})
 	$urlRouterProvider.otherwise('home');
 }]);
 

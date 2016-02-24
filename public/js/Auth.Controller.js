@@ -17,4 +17,12 @@ function(
 			$state.go('home');
 		});
 	};
+
+	$scope.login = function(){
+		auth.login($scope.user).error(function(error){
+			$scope.error = error;
+		}).then(function(){
+			$state.go('home');
+		});
+	};
 }]);

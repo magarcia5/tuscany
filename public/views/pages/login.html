@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <div class="page-header center">
+        <h1>Log In</h1>
+    </div>
+
+    <div ng-show="error" class="alert alert-danger row">
+        <span>{{error.message}}</span>
+    </div>
+
+    <div class"row">
+        <div class="col-md-4 col-md-offset-4">
+            <form ng-submit="login()" style="margin-top: 30px;">
+                <h3>Log In</h3>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Username" ng-model="user.username"></input>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Password" ng-model="user.password"></input>
+                </div>
+                <button type="submit" class="btn btn-primary">Log In</button>
+            </form>
+        </div>
+    </div>
+</html>

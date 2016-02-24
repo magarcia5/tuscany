@@ -10,9 +10,12 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/register', function(req, res, next){
-	console.log("post!");
 	if(!req.body.username || !req.body.password || !req.body.confirm_psswd){
 		return res.status(400).json({message: 'Please fill out all fields'});
+	}
+
+	if(req.body.password !== req.body.confirm_psswd){
+		return res.status(400).json({message: "Passwords don't match!"});
 	}
 
 	var user = new User();
@@ -21,10 +24,11 @@ router.post('/register', function(req, res, next){
 
 	user.save(function (err){
 		if(err){ 
-			console.log("error: " + err);
-			return next(err); 
+			if(err.code === 11000){
+				return res.status(500).json({message: 'Username already exists!'});
+			}
+			return res.status(500).json({message: "Oops! Something went wrong. Please try again."});
 		}
-		console.log("User saved");
 		return res.json({token: user.generateJWT()})
 	});
 });

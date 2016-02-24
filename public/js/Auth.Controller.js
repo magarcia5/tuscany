@@ -14,8 +14,7 @@ function(
 		auth.register($scope.user).error(function(error){
 			$scope.error = error;
 		}).then(function(){
-			console.log("Then..");
-			$state.go('/home');
+			$state.go('home');
 		});
 	};
 }]);

@@ -19,7 +19,7 @@ function(
 		})
 		.state('register', {
 			url: '/register',
-			templateUrl: 'views/register.html',
+			templateUrl: 'views/pages/register.html',
 			controller: 'AuthCtrl'
 		});
 	$urlRouterProvider.otherwise('home');

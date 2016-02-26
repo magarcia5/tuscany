@@ -5,6 +5,7 @@ var User = mongoose.model('User');
 
 passport.use(new LocalStrategy(
   function(email, password, done) {
+    console.log("Email " + email);
     User.findOne({ email: email }, function (err, user) {
       if (err) { return done(err); }
       if (!user) {

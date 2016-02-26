@@ -31,6 +31,7 @@ router.post('/register', function(req, res, next){
 	user.save(function (err){
 		if(err){ 
 			console.log(err);
+			// duplicate key error from mongo
 			if(err.code === 11000){
 				return res.status(500).json({message: 'Email is already in use.'});
 			}

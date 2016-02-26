@@ -3,7 +3,9 @@ var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
 
 var UserSchema = new mongoose.Schema({
-	username: {type: String, lowercase: true, unique: true},
+	email: {type: String, lowercase: true, unique: true},
+	first_name: {type: String, lowercase: true},
+	last_name: {type: String, lowercase: true},
 	hash: String,
 	salt: String,
 });
@@ -18,6 +20,11 @@ UserSchema.methods.validPassword = function(password){
 	return this.hash === hash;
 };
 
+UserSchema.methods.validEmail = function(email){
+	var re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+	return re.test(email);
+};
+
 UserSchema.methods.generateJWT = function(){
 	// set expiration to 60 days
 	var today = new Date();
@@ -26,7 +33,7 @@ UserSchema.methods.generateJWT = function(){
 
 	return jwt.sign({
 		_id: this._id,
-		username: this.username,
+		email: this.email,
 		exp: parseInt(exp.getTime()/1000),
 	}, 'SECRET');
 };

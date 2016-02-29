@@ -14,6 +14,7 @@ var passportConfig = require('./config/passport');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var trips = require('./routes/trips');
 
 mongoose.connect('mongodb://localhost/tuscany');
 
@@ -35,6 +36,7 @@ app.use(passport.initialize());
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/trips', trips);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

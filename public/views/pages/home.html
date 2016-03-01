@@ -1,0 +1,12 @@
+<div class="page-header">
+    <nav class="navbar navbar-default pull-right" ng-controller="MainCtrl">
+        <ul class="nav navbar-nav">
+            <li ng-show="isLoggedIn()"><a>{{ currentUser() }}</a></li>
+            <li ng-show="isLoggedIn()"><a href="" ng-click="logout()">Log Out</a></li>
+            <li ng-hide="isLoggedIn()"><a href="/#/login">Log In</a></li>
+            <li ng-hide="isLoggedIn()"><a href="/#/register">Register</a></li>
+        </ul>
+    </nav>
+    <h1>Home Page</h1>
+</div>
+<p>How now brown cow</p>

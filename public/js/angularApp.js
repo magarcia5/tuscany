@@ -14,7 +14,7 @@ function(
 	$stateProvider
 		.state('home', {
 			url: '/home',
-			templateUrl: '/home.html',
+			templateUrl: 'views/pages/home.html',
 			controller: 'MainCtrl'
 		})
 		.state('register', {
@@ -65,7 +65,7 @@ function(
 			var token = auth.getToken();
 
 			var payload = JSON.parse($window.atob(token.split('.')[1]));
-			return payload.username;
+			return payload.user;
 		}
 	};
 

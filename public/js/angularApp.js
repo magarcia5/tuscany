@@ -26,7 +26,8 @@ function(
 			url: '/login',
 			templateUrl: 'views/pages/login.html',
 			controller: 'AuthCtrl'
-		})
+		});
+
 	$urlRouterProvider.otherwise('home');
 }]);
 
@@ -65,7 +66,7 @@ function(
 			var token = auth.getToken();
 
 			var payload = JSON.parse($window.atob(token.split('.')[1]));
-			return payload.user;
+			return payload.username;
 		}
 	};
 

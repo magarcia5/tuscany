@@ -4,10 +4,12 @@ homeController.controller('MainCtrl', [
 	'$scope',
 	'auth',
 	'$http',
+	'$state',
 function(
 	$scope,
 	auth,
-	$http
+	$http,
+	$state
 ){
 	$scope.title = "Home Page";
 	$scope.isLoggedIn = auth.isLoggedIn;
@@ -25,6 +27,12 @@ function(
 			else{
 				$scope.trips = res.data;
 			}
+		});
+	};
+
+	$scope.createTrip = function(){
+		$state.go('createTrip', {
+			headers: {Authorization: 'Bearer ' + auth.getToken()}
 		});
 	};
 }]);

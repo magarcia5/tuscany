@@ -12,5 +12,5 @@
 	</div>
 	<button ng-click="showTrips()" class="btn btn-primary">My Trips</button>
 	<p>{{ trips }}</p>
-	<button ng-show="noTrips" class="btn"><a href="/trips/create">Create Trip</a></button>
+	<button ng-show="noTrips" class="btn" ng-click="createTrip()">Create Trip</button>
 </div>

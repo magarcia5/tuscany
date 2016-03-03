@@ -1,7 +1,8 @@
 var app = angular.module('tuscany', [
 	'ui.router',
 	'homeController',
-	'authController'
+	'authController',
+	'tripController'
 ]);
 
 app.config([
@@ -26,6 +27,11 @@ function(
 			url: '/login',
 			templateUrl: 'views/pages/login.html',
 			controller: 'AuthCtrl'
+		})
+		.state('createTrip', {
+			url: '/trips/create',
+			templateUrl: 'views/pages/createTrip.html',
+			controller: 'TripCtrl'
 		});
 
 	$urlRouterProvider.otherwise('home');

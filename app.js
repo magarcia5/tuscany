@@ -36,7 +36,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(passport.initialize());
-app.use(jwt({ secret: 'SECRET', userProperty: 'payload'}).unless({path: ['/']}));
+app.use(jwt({ secret: 'SECRET', userProperty: 'payload'}).unless({path: ['/', '/login', '/register']}));
 
 app.use('/', routes);
 app.use('/users', users);

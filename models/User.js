@@ -8,6 +8,7 @@ var UserSchema = new mongoose.Schema({
 	last_name: {type: String, lowercase: true},
 	hash: String,
 	salt: String,
+	trips: [{type: mongoose.Schema.Types.ObjectId, ref: 'Trip'}]
 });
 
 UserSchema.methods.setPassword = function(password){
@@ -34,6 +35,7 @@ UserSchema.methods.generateJWT = function(){
 	return jwt.sign({
 		_id: this._id,
 		username: this.first_name,
+		email: this.email,
 		exp: parseInt(exp.getTime()/1000),
 	}, 'SECRET');
 };

@@ -18,4 +18,8 @@ tripRouter.get('/', function(req, res, next) {
 	});
 });
 
+tripRouter.post('/create', function(req, res, next){
+	res.json(req.trip);
+});
+
 module.exports = tripRouter;

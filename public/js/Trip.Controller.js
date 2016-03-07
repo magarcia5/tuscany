@@ -16,7 +16,12 @@ function(
 	$scope.saveTrip = function(){
 		$http.post('/trips/create', $scope.trip, {
 			headers: {Authorization: 'Bearer ' + auth.getToken()}
-		}).success(function(data){
+		})
+		.error(function(error){
+			$scope.error = error;
+		})
+		.success(function(data){
+			console.log(data);
 			$state.go('home');
 		});
 	};

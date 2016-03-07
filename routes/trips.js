@@ -19,6 +19,9 @@ tripRouter.get('/', function(req, res, next) {
 });
 
 tripRouter.post('/create', function(req, res, next){
+	if(!req.body.name || !req.body.destination || !req.body.start_date || !req.body.end_date){
+		return res.status(400).json({message: 'Please fill out all fields.'});
+	}
 	res.json(req.trip);
 });
 

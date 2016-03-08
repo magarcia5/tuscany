@@ -20,12 +20,17 @@ tripRouter.get('/', function(req, res, next) {
 });
 
 tripRouter.post('/create', function(req, res, next){
-	if(!req.body.name || !req.body.destination || !req.body.start_date || !req.body.end_date){
+	if(!req.body.name || !req.body.destination || !req.body.start_date || 
+		(!req.body.same_day && !req.body.end_date)){
 		return res.status(400).json({message: 'Please fill out all fields.'});
 	}
 
 	var start_date = new Date(req.body.start_date);
 	var end_date = new Date(req.body.end_date);
+
+	if(req.body.same_day){
+		end_date = start_date;
+	}
 
 	if(end_date < start_date){
 		return res.status(400).json({message: 'Your end date must be after or the same as the start date.'});

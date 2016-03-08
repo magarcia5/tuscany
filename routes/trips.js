@@ -12,6 +12,7 @@ tripRouter.get('/', function(req, res, next) {
 		var trips = [];
 		for(i = 0; i < user.trips.length; i++){
 			// TODO: get full trip and display name
+			trips.push(user.trips[i]);
 			console.log(user.trips[i]);
 		}
 		res.json(trips);
@@ -22,7 +23,30 @@ tripRouter.post('/create', function(req, res, next){
 	if(!req.body.name || !req.body.destination || !req.body.start_date || !req.body.end_date){
 		return res.status(400).json({message: 'Please fill out all fields.'});
 	}
-	res.json(req.trip);
+
+	var start_date = new Date(req.body.start_date);
+	var end_date = new Date(req.body.end_date);
+
+	if(end_date < start_date){
+		return res.status(400).json({message: 'Your end date must be after or the same as the start date.'});
+	}
+
+	var user = User.findOne({email: req.payload.email}, function(err, user){
+		if(err){ return next(err); }
+
+		var trip = new Trip();
+		trip.start_date = start_date;
+		trip.end_date = end_date;
+		trip.name = req.body.name;
+		trip.destination = req.body.destination;
+
+		user.trips.push(trip);
+
+		user.save(function(err){
+			if(err){ return next(err); }
+			res.json(req.trip);
+		});
+	});
 });
 
 module.exports = tripRouter;

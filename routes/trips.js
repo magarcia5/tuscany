@@ -13,7 +13,6 @@ tripRouter.get('/', function(req, res, next) {
 		for(i = 0; i < user.trips.length; i++){
 			// TODO: get full trip and display name
 			trips.push(user.trips[i]);
-			console.log(user.trips[i]);
 		}
 		res.json(trips);
 	});

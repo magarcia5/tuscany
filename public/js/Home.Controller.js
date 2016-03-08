@@ -5,30 +5,22 @@ homeController.controller('MainCtrl', [
 	'auth',
 	'$http',
 	'$state',
+	'trip',
 function(
 	$scope,
 	auth,
 	$http,
-	$state
+	$state,
+	trip
 ){
 	$scope.title = "Home Page";
+
 	$scope.isLoggedIn = auth.isLoggedIn;
 	$scope.currentUser = auth.currentUser;
 	$scope.logout = auth.logout;
 
-	$scope.showTrips = function(){
-		return $http.get('/trips', {
-			headers: {Authorization: 'Bearer ' + auth.getToken()}
-		}).then(function(res){
-			if(res.data.length === 0){
-				$scope.trips = "No trips";
-				$scope.noTrips = true;
-			}
-			else{
-				$scope.trips = res.data;
-			}
-		});
-	};
+	$scope.getTrips = trip.getTrips;
+	$scope.trips = $scope.getTrips();
 
 	$scope.createTrip = function(){
 		$state.go('createTrip', {

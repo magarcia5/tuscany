@@ -11,9 +11,9 @@ function(
 	$state,
 	auth
 ){
-	 var input = angular.element(document.querySelector("#auto-complete"))[0];
- 	//console.log($scope);
+	var input = angular.element(document.querySelector("#auto-complete"))[0];
  	var autocomplete = new google.maps.places.Autocomplete(input);
+ 	
 	$scope.title = "Create Trip";
 
 	$scope.saveTrip = function(){

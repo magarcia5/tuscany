@@ -31,6 +31,10 @@ tripRouter.post('/create', function(req, res, next){
 		return res.status(400).json({message: 'Your end date must be after or the same as the start date.'});
 	}
 
+	if(!req.body.destination.geometry){
+		return res.status(400).json({message: 'Enter a valid address.'});
+	}
+
 	var user = User.findOne({email: req.payload.email}, function(err, user){
 		if(err){ return next(err); }
 
@@ -38,7 +42,7 @@ tripRouter.post('/create', function(req, res, next){
 		trip.start_date = start_date;
 		trip.end_date = end_date;
 		trip.name = req.body.name;
-		trip.destination = req.body.destination;
+		trip.destination = req.body.destination.formatted_address;
 
 		user.trips.push(trip);
 

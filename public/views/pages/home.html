@@ -1,16 +1,13 @@
-<div ng-controller="MainCtrl">
-	<div class="page-header">
-	    <nav class="navbar navbar-default pull-right">
-	        <ul class="nav navbar-nav">
-	            <li ng-show="isLoggedIn()"><a>{{ currentUser() }}</a></li>
-	            <li ng-show="isLoggedIn()"><a href="" ng-click="logout()">Log Out</a></li>
-	            <li ng-hide="isLoggedIn()"><a href="/#/login">Log In</a></li>
-	            <li ng-hide="isLoggedIn()"><a href="/#/register">Register</a></li>
-	        </ul>
-	    </nav>
-	    <h1>Home Page</h1>
-	</div>
-	<button ng-click="showTrips()" class="btn btn-primary">My Trips</button>
-	<p>{{ trips }}</p>
-	<button class="btn" ng-click="createTrip()">Create Trip</button>
+<div class="page-header">
+    <nav class="navbar navbar-default pull-right">
+        <ul class="nav navbar-nav">
+            <li ng-show="isLoggedIn()"><a>{{ currentUser() }}</a></li>
+            <li ng-show="isLoggedIn()"><a href="" ng-click="logout()">Log Out</a></li>
+            <li ng-hide="isLoggedIn()"><a href="/#/login">Log In</a></li>
+            <li ng-hide="isLoggedIn()"><a href="/#/register">Register</a></li>
+        </ul>
+    </nav>
+    <h1>Home Page</h1>
 </div>
+<p>{{ trips }}</p>
+<button class="btn btn-primary" ng-click="createTrip()">Create Trip</button>

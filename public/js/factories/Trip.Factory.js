@@ -13,5 +13,11 @@ function(
 		});
 	};
 
+	trip.deleteTrip = function(trip){
+		return $http.post('/trips/' + trip._id + '/delete', null, {
+			headers: {Authorization: 'Bearer ' + auth.getToken()}
+		});
+	};
+
 	return trip;
 }]);

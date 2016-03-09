@@ -55,4 +55,32 @@ tripRouter.post('/create', function(req, res, next){
 	});
 });
 
+tripRouter.param('trip', function(req, res, next, id){
+	var query = Trip.findById(id);
+
+	query.exec(function(err, trip){
+		if(err){ return next(err); }
+		if(!trip){ return next(new Error('No trip found for id ' + id)); }
+
+		req.trip = trip;
+		return next();
+	})
+})
+
+tripRouter.post('/:trip/delete', function(req, res, next){
+	User.findOne({email: req.payload.email}, function(err, user){
+		if(err){ return next(err); }
+
+		var tripToDelete = user.trips.indexOf(req.trip._id);
+		user.trips.splice(tripToDelete, 1);
+		user.save(function(err){
+			if(err){ return next(err); }
+			req.trip.remove(function(err, trip){
+				if(err){ return next(err); }
+				res.json(trip);
+			});	
+		});
+	});
+});
+
 module.exports = tripRouter;

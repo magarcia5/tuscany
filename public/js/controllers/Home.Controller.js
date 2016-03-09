@@ -26,6 +26,14 @@ function(
 		});
 	}
 
+	$scope.deleteTrip = function(tripToDelete){
+		trip.deleteTrip(tripToDelete).success(function(data){
+			// automatically update UI
+			var index = $scope.trips.indexOf(data._id);
+			$scope.trips.splice(index, 1);
+		});
+	};
+
 	$scope.createTrip = function(){
 		$state.go('createTrip', {
 			headers: {Authorization: 'Bearer ' + auth.getToken()}

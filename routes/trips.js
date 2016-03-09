@@ -9,12 +9,9 @@ var tripRouter = express.Router();
 tripRouter.get('/', function(req, res, next) {
 	var user = User.findOne({email: req.payload.email}, function(err, user){
 		if(err){ return next(err); }
-		var trips = [];
-		for(i = 0; i < user.trips.length; i++){
-			// TODO: get full trip and display name
-			trips.push(user.trips[i]);
-		}
-		res.json(trips);
+		Trip.find({'_id': {$in: user.trips}}, function(err, trips){
+			res.json(trips);
+		})
 	});
 });
 
@@ -39,21 +36,22 @@ tripRouter.post('/create', function(req, res, next){
 		return res.status(400).json({message: 'Enter a valid address.'});
 	}
 
-	var user = User.findOne({email: req.payload.email}, function(err, user){
-		if(err){ return next(err); }
+	var trip = new Trip();
+	trip.start_date = start_date;
+	trip.end_date = end_date;
+	trip.name = req.body.name;
+	trip.destination = req.body.destination.formatted_address;
 
-		var trip = new Trip();
-		trip.start_date = start_date;
-		trip.end_date = end_date;
-		trip.name = req.body.name;
-		trip.destination = req.body.destination.formatted_address;
-
-		user.trips.push(trip);
-
-		user.save(function(err){
+	trip.save(function(err, trip){
+		var user = User.findOne({email: req.payload.email}, function(err, user){
 			if(err){ return next(err); }
-			res.json(req.trip);
-		});
+
+			user.trips.push(trip);
+			user.save(function(err){
+				if(err){ return next(err); }
+				res.json(req.trip);
+			});
+		});		
 	});
 });
 

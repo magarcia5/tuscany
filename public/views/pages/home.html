@@ -9,5 +9,7 @@
     </nav>
     <h1>Home Page</h1>
 </div>
-<p>{{ trips }}</p>
+<div ng-repeat="trip in trips">
+	<span>{{trip.name}}</span>
+</div>
 <button class="btn btn-primary" ng-click="createTrip()">Create Trip</button>

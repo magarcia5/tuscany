@@ -10,10 +10,7 @@ function(
 	trip.getTrips = function(){
 		return $http.get('/trips', {
 			headers: {Authorization: 'Bearer ' + auth.getToken()}
-		}).then(function(res){
-			console.log(res.data);
-			return res.data;
-		});	
+		});
 	};
 
 	return trip;

@@ -19,8 +19,10 @@ function(
 	$scope.currentUser = auth.currentUser;
 	$scope.logout = auth.logout;
 
-	$scope.getTrips = trip.getTrips;
-	$scope.trips = $scope.getTrips();
+	var tripsDef = trip.getTrips();
+	tripsDef.then(function(res){
+		$scope.trips = res.data;
+	});
 
 	$scope.createTrip = function(){
 		$state.go('createTrip', {

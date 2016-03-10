@@ -41,6 +41,9 @@ function(
 	};
 
 	$scope.editTrip = function(tripId){
-		$scope.trip = trip.get(tripId);
+		$state.go('editTrip', {
+			headers: {Authorization: 'Bearer ' + auth.getToken()},
+			id: tripId
+		});
 	};
 }]);

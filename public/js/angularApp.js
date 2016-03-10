@@ -34,9 +34,14 @@ function(
 			controller: 'TripCtrl'
 		})
 		.state('editTrip', {
-			url: '/trips/edit',
+			url: '/trips/{id}/edit',
 			templateUrl: 'views/pages/editTrip.html',
-			controller: 'TripCtrl'
+			controller: 'TripCtrl',
+			resolve: {
+				trip: ['$stateParams', 'trip', function($stateParams, trip){
+					return trip.get($stateParams.id);
+				}]
+			}
 		});	
 
 	$urlRouterProvider.otherwise('home');
@@ -54,7 +59,7 @@ function(
 	auth.getToken = function(){
 		return $window.localStorage['tuscany-token'];
 	};
-	
+
 	auth.header = {
 		headers: {Authorization: 'Bearer ' + auth.getToken()}
 	};

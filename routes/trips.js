@@ -15,6 +15,13 @@ tripRouter.get('/', function(req, res, next) {
 	});
 });
 
+tripRouter.get('/:trip', function(req, res, next){
+	req.trip.populate('legs', funciton(err, trip){
+		if(err){ return next(err); }
+		res.json(trip);
+	});
+})
+
 tripRouter.post('/create', function(req, res, next){
 	if(!req.body.name || !req.body.destination || !req.body.start_date || 
 		(!req.body.same_day && !req.body.end_date)){

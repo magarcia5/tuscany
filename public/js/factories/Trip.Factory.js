@@ -7,6 +7,12 @@ function(
 ){
 	var trip = {};
 
+	trip.get = function(id){
+		return $http.get('/trips/' + id, auth.header).then(function(res){
+			return res.data;
+		});
+	};
+
 	trip.getTrips = function(){
 		return $http.get('/trips', {
 			headers: {Authorization: 'Bearer ' + auth.getToken()}

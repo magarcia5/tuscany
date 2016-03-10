@@ -32,7 +32,12 @@ function(
 			url: '/trips/create',
 			templateUrl: 'views/pages/createTrip.html',
 			controller: 'TripCtrl'
-		});
+		})
+		.state('editTrip', {
+			url: '/trips/edit',
+			templateUrl: 'views/pages/editTrip.html',
+			controller: 'TripCtrl'
+		});	
 
 	$urlRouterProvider.otherwise('home');
 }]);

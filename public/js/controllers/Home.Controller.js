@@ -39,4 +39,10 @@ function(
 			headers: {Authorization: 'Bearer ' + auth.getToken()}
 		});
 	};
+
+	$scope.editTrip = function(tripId){
+		$state.go('editTrip', {
+			headers: {Authorization: 'Bearer ' + auth.getToken()}
+		});
+	};
 }]);

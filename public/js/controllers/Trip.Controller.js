@@ -5,16 +5,19 @@ tripController.controller('TripCtrl', [
 	'$http',
 	'$state',
 	'auth',
+	'tripToEdit',
 function(
 	$scope,
 	$http,
 	$state,
-	auth
+	auth,
+	tripToEdit
 ){
 	var input = angular.element(document.querySelector("#auto-complete"))[0];
  	var autocomplete = new google.maps.places.Autocomplete(input);
 
 	$scope.title = "Create Trip";
+	$scope.tripToEdit = tripToEdit;
 
 	$scope.saveTrip = function(){
 		$scope.trip.destination = autocomplete.getPlace();
@@ -25,7 +28,6 @@ function(
 			$scope.error = error;
 		})
 		.success(function(data){
-			console.log(data);
 			$state.go('home');
 		});
 	};

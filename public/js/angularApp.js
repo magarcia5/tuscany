@@ -38,7 +38,7 @@ function(
 			templateUrl: 'views/pages/editTrip.html',
 			controller: 'TripCtrl',
 			resolve: {
-				trip: ['$stateParams', 'trip', function($stateParams, trip){
+				tripToEdit: ['$stateParams', 'trip', function($stateParams, trip){
 					return trip.get($stateParams.id);
 				}]
 			}

@@ -60,9 +60,7 @@ function(
 		return $window.localStorage['tuscany-token'];
 	};
 
-	auth.header = {
-		headers: {Authorization: 'Bearer ' + auth.getToken()}
-	};
+	auth.header = {Authorization: 'Bearer ' + auth.getToken()};
 
 	auth.saveToken = function(token){
 		$window.localStorage['tuscany-token'] = token;

@@ -35,14 +35,12 @@ function(
 	};
 
 	$scope.createTrip = function(){
-		$state.go('createTrip', {
-			headers: {Authorization: 'Bearer ' + auth.getToken()}
-		});
+		$state.go('createTrip', { headers: auth.header });
 	};
 
 	$scope.editTrip = function(tripId){
 		$state.go('editTrip', {
-			headers: {Authorization: 'Bearer ' + auth.getToken()},
+			headers: auth.header,
 			id: tripId
 		});
 	};

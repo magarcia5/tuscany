@@ -21,9 +21,7 @@ function(
 
 	$scope.saveTrip = function(){
 		$scope.trip.destination = autocomplete.getPlace();
-		$http.post('/trips/create', $scope.trip, {
-			headers: {Authorization: 'Bearer ' + auth.getToken()}
-		})
+		$http.post('/trips/create', $scope.trip, { headers: auth.header })
 		.error(function(error){
 			$scope.error = error;
 		})

@@ -10,3 +10,7 @@ a {
 .center {
 	text-align: center;
 }
+
+.pull-right {
+	right: 0px;
+}

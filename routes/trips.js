@@ -16,7 +16,7 @@ tripRouter.get('/', function(req, res, next) {
 });
 
 tripRouter.get('/:trip', function(req, res, next){
-	req.trip.populate('legs', funciton(err, trip){
+	req.trip.populate('legs', function(err, trip){
 		if(err){ return next(err); }
 		res.json(trip);
 	});

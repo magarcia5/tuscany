@@ -2,7 +2,8 @@ var app = angular.module('tuscany', [
 	'ui.router',
 	'homeController',
 	'authController',
-	'tripController'
+	'tripController',
+	'editTripController'
 ]);
 
 app.config([
@@ -36,7 +37,7 @@ function(
 		.state('editTrip', {
 			url: '/trips/{id}/edit',
 			templateUrl: 'views/pages/editTrip.html',
-			controller: 'TripCtrl',
+			controller: 'EditTripCtrl',
 			resolve: {
 				tripToEdit: ['$stateParams', 'trip', function($stateParams, trip){
 					return trip.get($stateParams.id);

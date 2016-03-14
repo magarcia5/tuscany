@@ -11,33 +11,43 @@
     <div class"row">
         <div class="col-md-4 col-md-offset-4 container">
             <form style="margin-top: 30px;">
-                <div class="row well">
-                    <label>Name</label>
-                    <span ng-model="trip.name">{{tripToEdit.name}}</span>
-                    <button class="btn btn-warn pull-right">Edit</button>  
+                <div class="row info-box">
+                    <label>Name:</label>
+                    <span ng-hide="editName" ng-model="tripToEdit.name">{{tripToEdit.name}}</span>
+                    <input type="text" class="form-control" ng-show="editName" ng-model="updatedTrip.name">
+                    <button ng-click="editName = editName ? false : true;" class="btn btn-warn pull-right">Edit</button>  
                 </div>
 
-                <div class="row well">
-                    <label>Start Date</label>
-                    <span ng-model="trip.start_date">{{tripToEdit.start_date}}</span>
-                    <button class="btn btn-warn pull-right">Edit</button>
+                <div class="row info-box">
+                    <label>Start Date:</label>
+                    <span ng-hide="editStartDate" ng-model="tripToEdit.start_date">{{tripToEdit.start_date}}</span><br>
+                    <input type="date" class="form-control" ng-show="editStartDate" ng-model="updatedTrip.start_date">
+                    <button ng-click="editStartDate = editStartDate ? false : true;" class="btn btn-warn pull-right">Edit</button>
                 </div>
 
-                <div class="row well" ng-hide="trip.same_day">
-                    <label>End Date</label>
-                    <span ng-model="trip.end_date">{{tripToEdit.end_date}}</span>
-                    <button class="btn btn-warn pull-right">Edit</button>
+                <div ng-show="sameDay" class="row info-box">
+                    <label>Same Day:</label>
+                    <span ng-hide="editSameDay">{{ sameDay }}</span>
+                    <button ng-click="sameDay = false; editEndDate = true;  " class="btn btn-warn pull-right">Edit</button>
+                </div>
+                
+                <div class="row info-box" ng-hide="sameDay">
+                    <label>End Date:</label>
+                    <span ng-hide="editEndDate" ng-model="trip.end_date">{{tripToEdit.end_date}}</span>
+                    <input type="date" class="form-control" ng-show="editEndDate" ng-model="updatedTrip.end_date">
+                    <button ng-click="editEndDate = editEndDate ? false : true;" class="btn btn-warn pull-right">Edit</button>
                 </div>
 
-                <div class="row well">
-                    <label>Destination</label>
-                    <span ng-model="trip.destination">{{tripToEdit.destination}}</span>
-                    <button class="btn btn-warn pull-right">Edit</button>
+                <div class="row info-box">
+                    <label>Destination:</label>
+                    <span ng-hide="editDestination" ng-model="trip.destination">{{tripToEdit.destination}}</span>
+                    <input id="edit-auto-complete" class="form-control" ng-show="editDestination" ng-model="updatedTrip.destination">
+                    <button ng-click="editDestination = editDestination ? false : true;" class="btn btn-warn pull-right">Edit</button>
                 </div>
 
+                <button ng-click="cancelUpdate()" class="btn btn-danger">Cancel</button>
                 <button class="btn btn-primary">Add Leg</button>
-
-                <button ng-click="saveTrip()" class="btn btn-primary">Save</button>
+                <button ng-click="updateTrip()" class="btn btn-primary">Save</button>
             </form>
         </div>
     </div>

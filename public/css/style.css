@@ -14,3 +14,11 @@ a {
 .pull-right {
 	right: 0px;
 }
+
+.info-box {
+	padding: 20px;
+	border: 1px solid gainsboro;
+	border-radius: 5px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}

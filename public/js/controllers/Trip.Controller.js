@@ -55,16 +55,22 @@ function(
 
 	var d1 = new Date($scope.tripToEdit.start_date);
 	var d2 = new Date($scope.tripToEdit.end_date);
-	$scope.sameDay = d1.getTime() === d1.getTime();
+	$scope.sameDay = d1.getTime() === d2.getTime();
 
 	var input = angular.element(document.querySelector("#edit-auto-complete"))[0];
 	var autocomplete = new google.maps.places.Autocomplete(input);
 
 	$scope.cancelUpdate = function(){
-		$state.go('home', {headers : auth.header});
+		$state.go('home');
 	}
 
 	$scope.updateTrip = function(){
-		trip.updateTrip($scope.updatedTrip);
+		trip.updateTrip($scope.tripToEdit._id, $scope.updatedTrip)
+		.error(function(err){
+			$scope.error = err;
+		})
+		.success(function(data){
+			$state.go('home');
+		});
 	}
 }]);

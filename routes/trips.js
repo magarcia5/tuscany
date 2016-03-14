@@ -90,4 +90,25 @@ tripRouter.post('/:trip/delete', function(req, res, next){
 	});
 });
 
+tripRouter.put('/:trip/update', function(req, res, next){
+	// Some of the fields get set to null if the user clicks edit but doesn't update. 
+	// This filters out null values so the document doesn't get updated will null values.
+	for(var key in req.body){
+		if(req.body[key] === null){
+			delete req.body[key];
+		}
+	}
+
+	if(Object.keys(req.body).length === 0){
+		return res.status(400).json({message: 'No fields to update! '});
+	}
+
+	// TODO validate the rest of the fields
+
+	req.trip.update(req.body, function(err, trip){
+		if(err){ return next(err); }
+		res.json(trip);
+	});
+});
+
 module.exports = tripRouter;

@@ -21,9 +21,9 @@ function(
 		return $http.post('/trips/' + trip._id + '/delete', null, { headers: auth.header });
 	};
 
-	trip.updateTrip = function(update){
-		console.log("Update with " + update);
-	}
+	trip.updateTrip = function(id, updateObj){
+		return $http.put('/trips/' + id + '/update', updateObj, { headers: auth.header });
+	};
 
 	return trip;
 }]);

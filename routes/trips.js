@@ -35,19 +35,16 @@ tripRouter.post('/create', function(req, res, next){
 		end_date = start_date;
 	}
 
-	if(end_date < start_date){
-		return res.status(400).json({message: 'Your end date must be after or the same as the start date.'});
-	}
-
-	if(!req.body.destination.geometry){
-		return res.status(400).json({message: 'Enter a valid address.'});
-	}
-
 	var trip = new Trip();
 	trip.start_date = start_date;
 	trip.end_date = end_date;
 	trip.name = req.body.name;
 	trip.destination = req.body.destination.formatted_address;
+
+	var info = trip.validate();
+	if(!info.valid){
+		return res.status(400).json({message: info.err});
+	}
 
 	trip.save(function(err, trip){
 		var user = User.findOne({email: req.payload.email}, function(err, user){
@@ -103,9 +100,21 @@ tripRouter.put('/:trip/update', function(req, res, next){
 		return res.status(400).json({message: 'No fields to update! '});
 	}
 
-	// TODO validate the rest of the fields
+	var updated = req.trip;
+	for(var key in req.body){
+		updated[key] = req.body[key];
+	}
 
-	req.trip.update(req.body, function(err, trip){
+	if(updated.same_day){
+		updated.end_date = updated.start_date;
+	}
+
+	info = updated.validate();
+	if(!info.valid){
+		return res.status(400).json({message: info.err});
+	}
+
+	req.trip.update(updated, function(err, trip){
 		if(err){ return next(err); }
 		res.json(trip);
 	});

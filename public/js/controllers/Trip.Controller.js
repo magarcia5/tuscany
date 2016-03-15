@@ -55,7 +55,7 @@ function(
 
 	var d1 = new Date($scope.tripToEdit.start_date);
 	var d2 = new Date($scope.tripToEdit.end_date);
-	$scope.sameDay = d1.getTime() === d2.getTime();
+	$scope.updatedTrip.same_day = d1.getTime() === d2.getTime();
 
 	var input = angular.element(document.querySelector("#edit-auto-complete"))[0];
 	var autocomplete = new google.maps.places.Autocomplete(input);

@@ -21,17 +21,20 @@
                 <div class="row info-box">
                     <label>Start Date:</label>
                     <span ng-hide="editStartDate" ng-model="tripToEdit.start_date">{{tripToEdit.start_date}}</span><br>
-                    <input type="date" class="form-control" ng-show="editStartDate" ng-model="updatedTrip.start_date">
+                    <div ng-show="editStartDate">
+                        <input type="date" class="form-control" ng-model="updatedTrip.start_date">
+                        <input type="checkbox" name="same-day" ng-model="updatedTrip.same_day"> Return same day</input>
+                    </div>
                     <button ng-click="editStartDate = editStartDate ? false : true;" class="btn btn-warn pull-right">Edit</button>
                 </div>
 
-                <div ng-show="sameDay" class="row info-box">
+                <div ng-show="updatedTrip.same_day" class="row info-box">
                     <label>Same Day:</label>
-                    <span ng-hide="editSameDay">{{ sameDay }}</span>
-                    <button ng-click="sameDay = false; editEndDate = true;  " class="btn btn-warn pull-right">Edit</button>
+                    <span ng-hide="editSameDay">{{ updatedTrip.same_day }}</span>
+                    <button ng-click="updatedTrip.same_day = false; editEndDate = true;  " class="btn btn-warn pull-right">Edit</button>
                 </div>
                 
-                <div class="row info-box" ng-hide="sameDay">
+                <div class="row info-box" ng-hide="updatedTrip.same_day">
                     <label>End Date:</label>
                     <span ng-hide="editEndDate" ng-model="trip.end_date">{{tripToEdit.end_date}}</span>
                     <input type="date" class="form-control" ng-show="editEndDate" ng-model="updatedTrip.end_date">

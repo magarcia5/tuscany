@@ -25,5 +25,10 @@ function(
 		return $http.put('/trips/' + id + '/update', updateObj, { headers: auth.header });
 	};
 
+	trip.prettyDate = function(date){
+		var d = new Date(date);
+		return d.toDateString();
+	};
+
 	return trip;
 }]);

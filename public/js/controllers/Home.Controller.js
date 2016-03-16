@@ -19,6 +19,10 @@ function(
 	$scope.currentUser = auth.currentUser;
 	$scope.logout = auth.logout;
 
+	$scope.prettyDate = trip.prettyDate;
+
+	$scope.showInfo = false;
+
 	if($scope.isLoggedIn()){
 		var tripsDef = trip.getTrips();
 		tripsDef.then(function(res){

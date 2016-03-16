@@ -16,8 +16,15 @@
 
 <div ng-show="isLoggedIn()">
 	<div ng-repeat="trip in trips" class="container-fluid">
-		<div class="row well col-md-4">
+		<div class="info-box col-md-4">
 			<h4>{{trip.name}}</h4>
+            <div class="info-box" ng-show="showInfo">
+                <h5>Duration: {{ prettyDate(trip.start_date) }} - {{ prettyDate(trip.end_date) }}</h5>
+                <h5>Destination: {{trip.destination}}</h5>
+                <h5>Legs: {{trip.legs}}</h5>
+            </div>
+            <button class="btn-default btn" ng-hide="showInfo" ng-click="showInfo = true;">View</button>
+            <button class="btn-default btn" ng-show="showInfo" ng-click="showInfo = false;">Hide</button>
 			<button class="btn-primary btn" ng-click="editTrip(trip._id)">Edit</button>
 			<button class="btn-danger btn" ng-click="deleteTrip(trip)">Delete</button>
 		</div>

@@ -11,9 +11,14 @@ function(
 	$state,
 	auth
 ){
-	var input = angular.element(document.querySelector("#auto-complete"))[0];
-
-  	var autocomplete = new google.maps.places.Autocomplete(input);
+	var input = angular.element(document.querySelector("#auto-complete"))[0],
+		legInput = angular.element(document.querySelector("#leg-auto-complete"))[0],
+		accomInput = angular.element(document.querySelector("#accom-addr-auto-complete"))[0],
+		autocomplete = new google.maps.places.Autocomplete(input),
+		legAutocomplete = new google.maps.places.Autocomplete(legInput),
+	  	// TODO narrow this one by destination in first autocomplete 
+	  	// TODO narrow by place
+  		accomAutoComplete = new google.maps.places.Autocomplete(accomInput);
 
 	$scope.title = "Create Trip";
 	$scope.showLegForm = false;

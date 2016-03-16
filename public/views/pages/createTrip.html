@@ -31,17 +31,48 @@
                     <input id="auto-complete" type="text" class="form-control" placeholder="Destination"></input>
                 </div>
 
-                <button ng-click="showLegForm = true;" class="btn btn-primary">Add Leg</button>
-
-                <button ng-click="saveTrip()" class="btn btn-primary">Create</button>
+                <div class="pull-right">
+                    <button ng-click="showLegForm = true;" class="btn btn-primary">Add Leg</button>
+                    <button ng-click="saveTrip()" class="btn btn-primary">Create</button>
+                </div>
             </form>
 
             <form ng-show="showLegForm" style="margin-top: 30px;">
                 <h3>Add Leg</h3>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Leg Name"`></input>
+                    <input type="text" class="form-control" placeholder="Leg Name"></input>
                 </div>
-                <button ng-click="showLegForm = false;" class="btn btn-danger">Cancel</button>
+
+                <div class="form-group">
+                    <label>Start Date</label>
+                    <input type="date" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>End Date</label>
+                    <input type="date" class="form-control"></input>
+                </div>
+
+                <div class="form-group">
+                    <input id="leg-auto-complete" type="text" class="form-control" placeholder="Destination">
+                </div>
+
+                <div class="form-group">
+                    <label class="radio-inline"><input type="radio" name="transportation" value="car">Drive</label>
+                    <label class="radio-inline"><input type="radio" name="transportation" value="plane">Fly</label>
+                    <label class="radio-inline"><input type="radio" name="transportation" value="train">Train</label>
+                    <label class="radio-inline"><input type="radio" name="transportation" value="walk">Walk</label>
+                    <label class="radio-inline"><input type="radio" name="transportation" value="bike">Bike</label>
+                </div>
+
+                <div class="form-group">
+                    <input id="accom-addr-auto-complete" type="text" class="form-control" placeholder="Where are you staying?">     
+                </div>
+
+                <div class="pull-right">
+                    <button ng-click="showLegForm = false;" class="btn btn-danger">Cancel</button>
+                    <button ng-click="saveLeg()" class="btn btn-primary">Save</button>
+                </div>
             </form>
         </div>
     </div>

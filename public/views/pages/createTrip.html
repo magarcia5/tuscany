@@ -31,9 +31,17 @@
                     <input id="auto-complete" type="text" class="form-control" placeholder="Destination"></input>
                 </div>
 
-                <button class="btn btn-primary">Add Leg</button>
+                <button ng-click="showLegForm = true;" class="btn btn-primary">Add Leg</button>
 
                 <button ng-click="saveTrip()" class="btn btn-primary">Create</button>
+            </form>
+
+            <form ng-show="showLegForm" style="margin-top: 30px;">
+                <h3>Add Leg</h3>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Leg Name"`></input>
+                </div>
+                <button ng-click="showLegForm = false;" class="btn btn-danger">Cancel</button>
             </form>
         </div>
     </div>

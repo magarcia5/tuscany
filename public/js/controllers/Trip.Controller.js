@@ -16,6 +16,7 @@ function(
   	var autocomplete = new google.maps.places.Autocomplete(input);
 
 	$scope.title = "Create Trip";
+	$scope.showLegForm = false;
 
 	$scope.saveTrip = function(){
 		$scope.trip.destination = autocomplete.getPlace();

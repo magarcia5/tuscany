@@ -1,6 +1,7 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px "Lucida Grande", Helvetica, Lucida, sans-serif;
+  background-color: #E4E6F0 !important;
 }
 
 a {
@@ -21,4 +22,5 @@ a {
 	border-radius: 5px;
 	margin-top: 10px;
 	margin-bottom: 10px;
+	background-color: #F7F7F7;
 }

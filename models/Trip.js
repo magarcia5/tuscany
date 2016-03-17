@@ -5,10 +5,13 @@ var TripSchema = new mongoose.Schema({
 	start_date: Date,
 	end_date: Date,
 	destination: String,
-	legs: [{type: mongoose.Schema.Types.ObjectId, ref: 'TripLeg'}]
+	transportation: String,
+	accomodation_addr: String,
+	accomodation_type: String,
+	legs: [{type: mongoose.Schema.Types.ObjectId, ref: 'Trip'}]
 });
 
-TripSchema.methods.validate = function(){
+TripSchema.methods.validate = function(is_leg){
 	
 	if(this.end_date < this.start_date){
 		return {valid: false, err: 'Your end date must be after or the same as the start date.'};

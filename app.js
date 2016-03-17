@@ -10,7 +10,6 @@ var jwt = require('express-jwt');
 var mongoose = require('mongoose');
 require('./models/User');
 require('./models/Trip');
-require('./models/TripLeg');
 
 var passport = require('passport');
 var passportConfig = require('./config/passport');

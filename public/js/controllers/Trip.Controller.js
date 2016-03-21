@@ -26,12 +26,13 @@ function(
 
 	$scope.title = "Create Trip";
 	$scope.trip = {};
+	$scope.leg = {};
 	$scope.showLegForm = false;
 
 	$scope.saveTrip = function(){
 		$scope.trip.destination = tripDestAutoComplete.getPlace();
 		$scope.trip.accomAddr = tripAccomAutoComplete.getPlace();
-		
+
 		// TODO move this to trip factory. controllers shouldnt directly call the rest handler
 		$http.post('/trips/create', $scope.trip, { headers: auth.header })
 		.error(function(error){
@@ -42,6 +43,16 @@ function(
 			$state.go('home');
 		});
 	};
+
+	$scope.showLeg = function(){
+		$scope.showLegForm = true;
+	};
+
+	$scope.cancelLeg = function(){
+		$scope.showLegForm = false;
+		$scope.leg = {};
+	}
+
 }]);
 
 var editTripController = angular.module('editTripController', []);

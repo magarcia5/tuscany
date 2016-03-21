@@ -45,24 +45,34 @@
 
                 <div class="pull-right">
                     <button type="button" ng-click="showLeg()" class="btn btn-primary">Add Leg</button>
-                    <button type="button" ng-click="saveTrip()" class="btn btn-primary">Create</button>
+                    <button type="button" ng-click="saveTrip()" ng-disabled="disableCreate" class="btn btn-primary">Create</button>
                 </div>
             </form>
 
+            <div ng-show="legSuccess" class="alert alert-success row drop-60">
+                <span>{{legSuccess.message}}</span>
+            </div>
+
+            <div ng-show="legError" class="alert alert-danger row drop-60">
+                <span>{{legError.message}}</span>
+            </div>
+            
             <form ng-show="showLegForm" style="margin-top: 30px;">
                 <h3>Add Leg</h3>
+
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Leg Name"></input>
+                    <input type="text" class="form-control" placeholder="Leg Name" ng-model="leg.name"></input>
                 </div>
 
                 <div class="form-group">
                     <label>Start Date</label>
-                    <input type="date" class="form-control">
+                    <input type="date" class="form-control" ng-model="leg.start_date">
+                    <input type="checkbox" name="same-day" ng-model="leg.same_day"> Return same day</input>
                 </div>
 
                 <div class="form-group">
                     <label>End Date</label>
-                    <input type="date" class="form-control"></input>
+                    <input type="date" class="form-control" ng-model="leg.end_date"></input>
                 </div>
 
                 <div class="form-group">
@@ -70,11 +80,11 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="radio-inline"><input type="radio" name="transportation" value="car">Drive</label>
-                    <label class="radio-inline"><input type="radio" name="transportation" value="plane">Fly</label>
-                    <label class="radio-inline"><input type="radio" name="transportation" value="train">Train</label>
-                    <label class="radio-inline"><input type="radio" name="transportation" value="walk">Walk</label>
-                    <label class="radio-inline"><input type="radio" name="transportation" value="bike">Bike</label>
+                    <label class="radio-inline"><input type="radio" ng-model="leg.transportation" value="car">Drive</label>
+                    <label class="radio-inline"><input type="radio" ng-model="leg.transportation" value="plane">Fly</label>
+                    <label class="radio-inline"><input type="radio" ng-model="leg.transportation" value="train">Train</label>
+                    <label class="radio-inline"><input type="radio" ng-model="leg.transportation" value="walk">Walk</label>
+                    <label class="radio-inline"><input type="radio" ng-model="leg.transportation" value="bike">Bike</label>
                 </div>
 
                 <div class="form-group">

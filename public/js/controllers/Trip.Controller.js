@@ -27,6 +27,7 @@ function(
 	$scope.title = "Create Trip";
 	$scope.trip = {};
 	$scope.leg = {};
+	$scope.disableCreate = false;
 	$scope.showLegForm = false;
 
 	$scope.saveTrip = function(){
@@ -46,11 +47,20 @@ function(
 
 	$scope.showLeg = function(){
 		$scope.showLegForm = true;
+		$scope.disableCreate = true;	
 	};
 
 	$scope.cancelLeg = function(){
 		$scope.showLegForm = false;
+		$scope.disableCreate = false;
 		$scope.leg = {};
+	};
+
+	$scope.saveLeg = function(){
+		console.log($scope.leg);
+		$scope.disableCreate = false;
+		$scope.showLegForm = false;
+		$scope.legSuccess = {message: 'Leg saved!'};
 	}
 
 }]);

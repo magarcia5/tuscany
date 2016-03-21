@@ -16,6 +16,10 @@ a {
 	right: 0px;
 }
 
+.drop-60 {
+	margin-top: 60px;
+}
+
 .info-box {
 	padding: 20px;
 	border: 1px solid gainsboro;

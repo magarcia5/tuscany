@@ -7,17 +7,22 @@ var TripSchema = new mongoose.Schema({
 	destination: String,
 	transportation: String,
 	accomodation_addr: String,
-	accomodation_type: String,
+	// TODO uncomment when you narrow down google autocomplete and can determine what type of address got selected
+	//accomodation_type: String,
 	legs: [{type: mongoose.Schema.Types.ObjectId, ref: 'Trip'}]
 });
 
 TripSchema.methods.validate = function(is_leg){
-	
+
+	if(!this.destination){
+		return {valid: false, err: 'You need to pick a valid destination.'};
+	}
+
 	if(this.end_date < this.start_date){
 		return {valid: false, err: 'Your end date must be after or the same as the start date.'};
 	}
+	
 	// TODO make sure the date isn't in the past
-
 	return {valid: true};
 }
 

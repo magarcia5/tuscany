@@ -15,7 +15,8 @@ function(
 	var tripDesInput = angular.element(document.querySelector("#trip-dest-auto-complete"))[0],
 		tripAccomInput = angular.element(document.querySelector("#trip-accom-auto-complete"))[0],
 		legDestInput = angular.element(document.querySelector("#leg-dest-auto-complete"))[0],
-		legAccomInput = angular.element(document.querySelector("#leg-accom-auto-complete"))[0]
+		legAccomInput = angular.element(document.querySelector("#leg-accom-auto-complete"))[0],
+
 		tripDestAutoComplete = new google.maps.places.Autocomplete(tripDesInput),
 		tripAccomAutoComplete = new google.maps.places.Autocomplete(tripAccomInput),
 	  	// TODO narrow this one by destination in first autocomplete 
@@ -24,16 +25,20 @@ function(
   		legAccomAutoComplete = new google.maps.places.Autocomplete(legAccomInput);
 
 	$scope.title = "Create Trip";
+	$scope.trip = {};
 	$scope.showLegForm = false;
 
 	$scope.saveTrip = function(){
-		$scope.trip.destination = autocomplete.getPlace();
+		$scope.trip.destination = tripDestAutoComplete.getPlace();
+		$scope.trip.accomAddr = tripAccomAutoComplete.getPlace();
+		
 		// TODO move this to trip factory. controllers shouldnt directly call the rest handler
 		$http.post('/trips/create', $scope.trip, { headers: auth.header })
 		.error(function(error){
 			$scope.error = error;
 		})
 		.success(function(data){
+			console.log('Going home');
 			$state.go('home');
 		});
 	};

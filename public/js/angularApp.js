@@ -3,7 +3,8 @@ var app = angular.module('tuscany', [
 	'homeController',
 	'authController',
 	'tripController',
-	'editTripController'
+	'editTripController',
+	'ngAnimate'
 ]);
 
 app.config([

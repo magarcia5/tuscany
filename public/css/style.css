@@ -28,3 +28,13 @@ a {
 	margin-bottom: 10px;
 	background-color: #F7F7F7;
 }
+
+.animate-show.ng-hide-add, .animate-show.ng-hide-remove {
+  transition: all linear 0.5s;
+}
+
+.animate-show.ng-hide {
+  line-height: 0;
+  opacity: 0;
+  padding: 0 10px;
+}

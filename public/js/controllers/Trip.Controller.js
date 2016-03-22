@@ -5,11 +5,13 @@ tripController.controller('TripCtrl', [
 	'$http',
 	'$state',
 	'auth',
+	'$timeout',
 function(
 	$scope,
 	$http,
 	$state,
-	auth
+	auth, 
+	$timeout
 ){
 	// TODO create factory to handle this if this becomes a regular thing
 	var tripDesInput = angular.element(document.querySelector("#trip-dest-auto-complete"))[0],
@@ -37,7 +39,8 @@ function(
 		// TODO move this to trip factory. controllers shouldnt directly call the rest handler
 		$http.post('/trips/create', $scope.trip, { headers: auth.header })
 		.error(function(error){
-			$scope.error = error;
+			$scope.tripError = error;
+			$timeout(function(){ $scope.tripError = null; }, 2000);
 		})
 		.success(function(data){
 			console.log('Going home');
@@ -57,11 +60,11 @@ function(
 	};
 
 	$scope.saveLeg = function(){
-		console.log($scope.leg);
 		$scope.disableCreate = false;
 		$scope.showLegForm = false;
-		$scope.legSuccess = {message: 'Leg saved!'};
-	}
+		$scope.successMsg = 'Leg Saved!';
+		$timeout(function(){ $scope.successMsg = ""; }, 2000);
+	};
 
 }]);
 

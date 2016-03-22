@@ -4,8 +4,8 @@
         <h1>{{title}}</h1>
     </div>
 
-    <div ng-show="error" class="alert alert-danger row">
-        <span>{{error.message}}</span>
+    <div ng-show="tripError" class="alert alert-danger row animate-show">
+        <span>{{tripError.message}}</span>
     </div>
 
     <div class"row">
@@ -49,8 +49,8 @@
                 </div>
             </form>
 
-            <div ng-show="legSuccess" class="alert alert-success row drop-60">
-                <span>{{legSuccess.message}}</span>
+            <div ng-show="successMsg" class="alert alert-success row drop-60 animate-show">
+                <span>{{successMsg}}</span>
             </div>
 
             <div ng-show="legError" class="alert alert-danger row drop-60">

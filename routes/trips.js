@@ -61,7 +61,6 @@ tripRouter.post('/create', function(req, res, next){
 			user.trips.push(trip);
 			user.save(function(err){
 				if(err){ return next(err); }
-				console.log("Saved.");
 				res.json(req.trip);
 			});
 		});		

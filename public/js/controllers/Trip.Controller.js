@@ -39,13 +39,12 @@ function(
 		$scope.newTrip.accomAddr = tripAccomAutoComplete.getPlace();
 
 		// TODO move this to trip factory. controllers shouldnt directly call the rest handler
-		$http.post('/trips/create', $scope.newTrip, { headers: auth.header })
+		trip.createTrip($scope.newTrip)
 		.error(function(error){
 			$scope.tripError = error;
 			$timeout(function(){ $scope.tripError = null; }, 2000);
 		})
 		.success(function(data){
-			console.log('Going home');
 			$state.go('home');
 		});
 	};

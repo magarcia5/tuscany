@@ -30,5 +30,9 @@ function(
 		return d.toDateString();
 	};
 
+	trip.createTrip = function(newTrip){
+		return $http.post('/trips/create', newTrip, { headers: auth.header });
+	};
+
 	return trip;
 }]);

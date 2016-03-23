@@ -43,6 +43,12 @@
                     <input id="trip-accom-auto-complete" type="text" class="form-control" placeholder="Where are you staying?">     
                 </div>
 
+                <div ng-repeat="leg in newTrip.legs" class="info-box">
+                    <p><b>Leg:</b> {{leg.name}}
+                    <button type="button" ng-click="editLeg(leg)" class="btn-default btn pull-right">Edit</button>
+                    <button type"button" ng-click="deleteLeg(leg)" class="btn-danger btn pull-right">Delete</button></p>
+                </div>
+
                 <div class="pull-right">
                     <button type="button" ng-click="showLeg()" class="btn btn-primary">Add Leg</button>
                     <button type="button" ng-click="saveTrip()" ng-disabled="disableCreate" class="btn btn-primary">Create</button>
@@ -70,7 +76,7 @@
                     <input type="checkbox" name="same-day" ng-model="leg.same_day"> Return same day</input>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" ng-hide="leg.same_day">
                     <label>End Date</label>
                     <input type="date" class="form-control" ng-model="leg.end_date"></input>
                 </div>
@@ -92,8 +98,8 @@
                 </div>
 
                 <div class="pull-right">
-                    <button ng-click="cancelLeg()" class="btn btn-danger">Cancel</button>
-                    <button ng-click="saveLeg()" class="btn btn-primary">Save</button>
+                    <button type="button" ng-click="cancelLeg()" class="btn btn-danger">Cancel</button>
+                    <button type="button" ng-click="saveLeg()" class="btn btn-primary">Save</button>
                 </div>
             </form>
         </div>

@@ -30,6 +30,7 @@ function(
 
 	$scope.title = "Create Trip";
 	$scope.newTrip = {};
+	$scope.newTrip.legs = [];
 	$scope.leg = {};
 	$scope.disableCreate = false;
 	$scope.showLegForm = false;
@@ -54,6 +55,16 @@ function(
 		$scope.disableCreate = true;	
 	};
 
+	$scope.editLeg = function(leg){
+		$scope.showLegForm = true;
+		$scope.leg = leg;
+	};
+
+	$scope.deleteLeg = function(leg){
+		var indexOf = $scope.newTrip.legs.indexOf(leg);
+		$scope.newTrip.legs.splice(indexOf, 1);
+	};		
+
 	$scope.cancelLeg = function(){
 		$scope.showLegForm = false;
 		$scope.disableCreate = false;
@@ -63,9 +74,8 @@ function(
 	$scope.saveLeg = function(){
 		$scope.disableCreate = false;
 		$scope.showLegForm = false;
-		$scope.successMsg = 'Leg Saved!';
-
-		$timeout(function(){ $scope.successMsg = ""; }, 2000);
+		$scope.newTrip.legs.push($scope.leg);
+		$scope.leg = {};
 	};
 
 }]);

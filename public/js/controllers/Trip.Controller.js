@@ -4,14 +4,16 @@ tripController.controller('TripCtrl', [
 	'$scope',
 	'$http',
 	'$state',
-	'auth',
 	'$timeout',
+	'auth',
+	'trip',
 function(
 	$scope,
 	$http,
 	$state,
+	$timeout,
 	auth, 
-	$timeout
+	trip
 ){
 	// TODO create factory to handle this if this becomes a regular thing
 	var tripDesInput = angular.element(document.querySelector("#trip-dest-auto-complete"))[0],
@@ -27,17 +29,17 @@ function(
   		legAccomAutoComplete = new google.maps.places.Autocomplete(legAccomInput);
 
 	$scope.title = "Create Trip";
-	$scope.trip = {};
+	$scope.newTrip = {};
 	$scope.leg = {};
 	$scope.disableCreate = false;
 	$scope.showLegForm = false;
 
 	$scope.saveTrip = function(){
-		$scope.trip.destination = tripDestAutoComplete.getPlace();
-		$scope.trip.accomAddr = tripAccomAutoComplete.getPlace();
+		$scope.newTrip.destination = tripDestAutoComplete.getPlace();
+		$scope.newTrip.accomAddr = tripAccomAutoComplete.getPlace();
 
 		// TODO move this to trip factory. controllers shouldnt directly call the rest handler
-		$http.post('/trips/create', $scope.trip, { headers: auth.header })
+		$http.post('/trips/create', $scope.newTrip, { headers: auth.header })
 		.error(function(error){
 			$scope.tripError = error;
 			$timeout(function(){ $scope.tripError = null; }, 2000);
@@ -63,6 +65,7 @@ function(
 		$scope.disableCreate = false;
 		$scope.showLegForm = false;
 		$scope.successMsg = 'Leg Saved!';
+
 		$timeout(function(){ $scope.successMsg = ""; }, 2000);
 	};
 

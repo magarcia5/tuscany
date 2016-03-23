@@ -34,7 +34,6 @@ tripRouter.post('/create', function(req, res, next){
 		return res.status(400).json({message: 'Please fill out all fields.'});
 	}
 	
-
 	var start_date = new Date(req.body.start_date);
 	var end_date = new Date(req.body.end_date);
 
@@ -51,12 +50,10 @@ tripRouter.post('/create', function(req, res, next){
 
 	//optional
 	trip.accomodation_addr = req.body.accomAddr ? req.body.accomAddr.formatted_address : "";
-
-	var info = trip.validate();
+	var info = trip.validateModel();
 	if(!info.valid){
 		return res.status(400).json({message: info.err});
-	}
-
+	}	
 	trip.save(function(err, trip){
 		var user = User.findOne({email: req.payload.email}, function(err, user){
 			if(err){ return next(err); }

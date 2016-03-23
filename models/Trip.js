@@ -12,7 +12,7 @@ var TripSchema = new mongoose.Schema({
 	legs: [{type: mongoose.Schema.Types.ObjectId, ref: 'Trip'}]
 });
 
-TripSchema.methods.validate = function(is_leg){
+TripSchema.methods.validateModel = function(is_leg){
 
 	if(!this.destination){
 		return {valid: false, err: 'You need to pick a valid destination.'};
@@ -24,6 +24,6 @@ TripSchema.methods.validate = function(is_leg){
 	
 	// TODO make sure the date isn't in the past
 	return {valid: true};
-}
+};
 
 mongoose.model('Trip', TripSchema);

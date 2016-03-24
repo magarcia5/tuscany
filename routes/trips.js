@@ -5,7 +5,6 @@ var Trip = mongoose.model('Trip');
 var User = mongoose.model('User');
 
 var tripRouter = express.Router();
-var REQUIRED_TRIP_FIELDS = ["name", "destination", "start_date", "transportation"];
 
 tripRouter.get('/', function(req, res, next) {
 	var user = User.findOne({email: req.payload.email}, function(err, user){
@@ -24,16 +23,6 @@ tripRouter.get('/:trip', function(req, res, next){
 })
 
 tripRouter.post('/create', function(req, res, next){
-	for(i = 0; i < REQUIRED_TRIP_FIELDS.length; i++){
-		if(!(REQUIRED_TRIP_FIELDS[i] in req.body)){
-			return res.status(400).json({message: 'Please fill out all fields.'});
-		}
-	}
-
-	if (!req.body.same_day && !req.body.end_date){
-		return res.status(400).json({message: 'Please fill out all fields.'});
-	}
-	
 	var start_date = new Date(req.body.start_date);
 	var end_date = new Date(req.body.end_date);
 
@@ -47,9 +36,9 @@ tripRouter.post('/create', function(req, res, next){
 	trip.name = req.body.name;
 	trip.destination = req.body.destination.formatted_address;
 	trip.transportation = req.body.transportation;
-
 	//optional
 	trip.accomodation_addr = req.body.accomAddr ? req.body.accomAddr.formatted_address : "";
+
 	var info = trip.validateModel();
 	if(!info.valid){
 		return res.status(400).json({message: info.err});

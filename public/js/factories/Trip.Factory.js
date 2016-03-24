@@ -6,7 +6,8 @@ function(
 	auth
 ){
 	var trip = {};
-
+	var REQUIRED_TRIP_FIELDS = ["name", "destination", "start_date", "transportation"];
+	
 	trip.get = function(id){
 		return $http.get('/trips/' + id, { headers: auth.header }).then(function(res){
 			return res.data;
@@ -32,6 +33,18 @@ function(
 
 	trip.createTrip = function(newTrip){
 		return $http.post('/trips/create', newTrip, { headers: auth.header });
+	};
+
+	trip.verifyAllFieldsPresent = function(trip){
+		for(i = 0; i < REQUIRED_TRIP_FIELDS.length; i++){
+			if(!(REQUIRED_TRIP_FIELDS[i] in trip)){
+				return {valid: false, message: "Oops! You're missing field " + REQUIRED_TRIP_FIELDS[i]};
+			}
+		}
+		if (!trip.same_day && !trip.end_date){
+			return {valid: false, message: "Oops! You're missing a trip field"};
+		}	
+		return {valid: true};
 	};
 
 	return trip;

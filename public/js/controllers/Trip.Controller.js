@@ -40,14 +40,21 @@ function(
 		$scope.newTrip.destination = tripDestAutoComplete.getPlace();
 		$scope.newTrip.accomAddr = tripAccomAutoComplete.getPlace();
 
-		trip.createTrip($scope.newTrip)
-		.error(function(error){
-			$scope.tripError = error;
-			$timeout(function(){ $scope.tripError = null; }, 2000);
-		})
-		.success(function(data){
-			$state.go('home');
-		});
+		var verifyFields = trip.verifyAllFieldsPresent($scope.newTrip);
+		if(verifyFields.valid){
+			trip.createTrip($scope.newTrip)
+			.error(function(error){
+				$scope.tripError = error;
+				$timeout(function(){ $scope.tripError = null; }, 2000);
+			})
+			.success(function(data){
+				$state.go('home');
+			});
+		}
+		else{
+			$scope.tripError = verifyFields;
+			$timeout(function(){ $scope.tripError = null }, 2000);
+		}
 	};
 
 	$scope.showLeg = function(){

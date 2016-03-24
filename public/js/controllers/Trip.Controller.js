@@ -80,10 +80,23 @@ function(
 	};
 
 	$scope.saveLeg = function(){
-		$scope.disableCreate = false;
-		$scope.showLegForm = false;
-		$scope.newTrip.legs.push($scope.leg);
-		$scope.leg = {};
+		$scope.leg.destination = legDestAutoComplete.getPlace();
+		$scope.leg.accomAddr = legAccomAutoComplete.getPlace();
+
+		var verifyFields = trip.verifyAllFieldsPresent($scope.leg);
+		if(verifyFields.valid){
+			$scope.disableCreate = false;
+			$scope.showLegForm = false;
+			$scope.newTrip.legs.push($scope.leg);
+			$scope.leg = {};		
+			$scope.successMsg = "Leg added!";
+			$timeout(function(){ $scope.successMsg = null; }, 2000);	
+		}
+		else{
+			$scope.legError = verifyFields;
+			$timeout(function() { $scope.legError = null; }, 2000);
+		}
+
 	};
 
 	$scope.updateLeg = function(){
@@ -92,6 +105,8 @@ function(
 		$scope.updating = false;
 		$scope.showLegForm = false;
 		$scope.leg = {};
+		$scope.successMsg = "Leg updated!";
+		$timeout(function(){ $scope.successMsg = null; }, 2000);
 	}
 
 }]);

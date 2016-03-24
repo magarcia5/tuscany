@@ -32,6 +32,7 @@ function(
 	$scope.newTrip = {};
 	$scope.newTrip.legs = [];
 	$scope.leg = {};
+	$scope.updating = false;
 	$scope.disableCreate = false;
 	$scope.showLegForm = false;
 
@@ -39,7 +40,6 @@ function(
 		$scope.newTrip.destination = tripDestAutoComplete.getPlace();
 		$scope.newTrip.accomAddr = tripAccomAutoComplete.getPlace();
 
-		// TODO move this to trip factory. controllers shouldnt directly call the rest handler
 		trip.createTrip($scope.newTrip)
 		.error(function(error){
 			$scope.tripError = error;
@@ -57,6 +57,7 @@ function(
 
 	$scope.editLeg = function(leg){
 		$scope.showLegForm = true;
+		$scope.updating = true;
 		$scope.leg = leg;
 	};
 
@@ -77,6 +78,14 @@ function(
 		$scope.newTrip.legs.push($scope.leg);
 		$scope.leg = {};
 	};
+
+	$scope.updateLeg = function(){
+		var indexOf = $scope.newTrip.legs.indexOf($scope.leg);
+		$scope.newTrip.legs[indexOf] = $scope.leg;
+		$scope.updating = false;
+		$scope.showLegForm = false;
+		$scope.leg = {};
+	}
 
 }]);
 

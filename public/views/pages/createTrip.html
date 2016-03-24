@@ -51,7 +51,7 @@
 
                 <div class="pull-right">
                     <button type="button" ng-click="showLeg()" class="btn btn-primary">Add Leg</button>
-                    <button type="button" ng-click="saveTrip()" ng-disabled="disableCreate" class="btn btn-primary">Create</button>
+                    <button type="button" ng-click="saveTrip()" ng-disabled="disableCreate" class="btn btn-primary">Create Trip</button>
                 </div>
             </form>
 
@@ -99,7 +99,8 @@
 
                 <div class="pull-right">
                     <button type="button" ng-click="cancelLeg()" class="btn btn-danger">Cancel</button>
-                    <button type="button" ng-click="saveLeg()" class="btn btn-primary">Save</button>
+                    <button type="button" ng-hide="updating" ng-click="saveLeg()" class="btn btn-primary">Add</button>
+                    <button type="button" ng-show="updating" ng-click="updateLeg()" class="btn btn-warning">Update</button>
                 </div>
             </form>
         </div>

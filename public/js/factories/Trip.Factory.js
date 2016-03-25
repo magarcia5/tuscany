@@ -37,7 +37,7 @@ function(
 
 	trip.verifyAllFieldsPresent = function(trip){
 		for(i = 0; i < REQUIRED_TRIP_FIELDS.length; i++){
-			if(!(REQUIRED_TRIP_FIELDS[i] in trip)){
+			if(!(REQUIRED_TRIP_FIELDS[i] in trip) || !trip[REQUIRED_TRIP_FIELDS[i]]){
 				return {valid: false, message: "Oops! You're missing field " + REQUIRED_TRIP_FIELDS[i]};
 			}
 		}

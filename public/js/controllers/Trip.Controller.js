@@ -100,13 +100,20 @@ function(
 	};
 
 	$scope.updateLeg = function(){
-		var indexOf = $scope.newTrip.legs.indexOf($scope.leg);
-		$scope.newTrip.legs[indexOf] = $scope.leg;
-		$scope.updating = false;
-		$scope.showLegForm = false;
-		$scope.leg = {};
-		$scope.successMsg = "Leg updated!";
-		$timeout(function(){ $scope.successMsg = null; }, 2000);
+		var verifyFields = trip.verifyAllFieldsPresent($scope.leg);
+		if(verifyFields.valid){
+			var indexOf = $scope.newTrip.legs.indexOf($scope.leg);
+			$scope.newTrip.legs[indexOf] = $scope.leg;
+			$scope.updating = false;
+			$scope.showLegForm = false;
+			$scope.leg = {};
+			$scope.successMsg = "Leg updated!";
+			$timeout(function(){ $scope.successMsg = null; }, 2000);
+		}
+		else {
+			$scope.legError = verifyFields;
+			$timeout(function(){ $scope.legError = null; }, 2000);
+		}
 	}
 
 }]);

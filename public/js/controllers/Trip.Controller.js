@@ -29,14 +29,36 @@ function(
   		legAccomAutoComplete = new google.maps.places.Autocomplete(legAccomInput);
 
 	$scope.title = "Create Trip";
-	$scope.newTrip = {};
-	$scope.newTrip.legs = [];
+	$scope.newTrip = {
+		accomAddr: undefined, 
+		destination: {
+			formatted_address: "Oxnard, CA, USA"
+		},
+		end_date: new Date("Tue Jan 05 2016 00:00:00 GMT-0800 (PST)"),
+		start_date: new Date("Tue Jan 01 2016 00:00:00 GMT-0800 (PST)"),
+		name: "Mel's Trip",
+		transportation: "car",
+		legs: []
+	};
+	$scope.newTrip.legs.push({
+		accomAddr: undefined, 
+		destination: {
+			formatted_address: "Santa Monica, CA, USA"
+		},
+		end_date: new Date("Tue Jan 03 2016 00:00:00 GMT-0800 (PST)"),
+		start_date: new Date("Tue Jan 02 2016 00:00:00 GMT-0800 (PST)"),
+		name: "Day Trip",
+		transportation: "car"
+	});
+	//$scope.newTrip = {};
+	//$scope.newTrip.legs = [];
 	$scope.leg = {};
 	$scope.updating = false;
 	$scope.disableCreate = false;
 	$scope.showLegForm = false;
 
 	$scope.saveTrip = function(){
+		//TODO hide end date if user selects the same day for start and end
 		$scope.newTrip.destination = tripDestAutoComplete.getPlace();
 		$scope.newTrip.accomAddr = tripAccomAutoComplete.getPlace();
 

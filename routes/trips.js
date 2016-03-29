@@ -38,6 +38,8 @@ tripRouter.post('/create', function(req, res, next){
 	trip.transportation = req.body.transportation;
 	//optional
 	trip.accomodation_addr = req.body.accomAddr ? req.body.accomAddr.formatted_address : "";
+	// TODO figure out why this never sets the leg
+	trip.legs = req.body.legs;
 
 	var info = trip.validateModel();
 	if(!info.valid){

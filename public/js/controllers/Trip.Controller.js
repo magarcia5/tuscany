@@ -40,6 +40,8 @@ function(
 		transportation: "car",
 		legs: []
 	};
+
+	// TODO figure out why this keeps getting reset when you hit enter when entering destination
 	$scope.newTrip.legs.push({
 		accomAddr: undefined, 
 		destination: {

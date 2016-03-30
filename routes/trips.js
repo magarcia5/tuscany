@@ -6,6 +6,25 @@ var User = mongoose.model('User');
 
 var tripRouter = express.Router();
 
+var construct_trip = function(trip, is_leg){
+	var start_date = new Date(trip.start_date);
+	var end_date = new Date(trip.end_date);
+
+	if(trip.same_day){
+		end_date = start_date;
+	}
+
+	var trip_doc = new Trip();
+	trip_doc.start_date = trip.start_date;
+	trip_doc.end_date = trip.end_date;
+	trip_doc.name = trip.name;
+	trip_doc.destination = trip.destination.formatted_address;
+	trip_doc.transportation = trip.transportation;
+	trip_doc.accomodation_addr = trip.accomAddr ? trip.accomAddr.formatted_address : "";
+
+	return {trip_doc: trip_doc, info: trip_doc.validateModel(is_leg)}; 
+};
+
 tripRouter.get('/', function(req, res, next) {
 	var user = User.findOne({email: req.payload.email}, function(err, user){
 		if(err){ return next(err); }
@@ -23,32 +42,28 @@ tripRouter.get('/:trip', function(req, res, next){
 })
 
 tripRouter.post('/create', function(req, res, next){
-	//console.log(req.body);
-	var start_date = new Date(req.body.start_date);
-	var end_date = new Date(req.body.end_date);
 
-	if(req.body.same_day){
-		end_date = start_date;
-	}
+	var trip = construct_trip(req.body, false);
+	var trip_doc = trip.trip_doc;
+	var info = trip.info;
 
-	var trip = new Trip();
-	trip.start_date = start_date;
-	trip.end_date = end_date;
-	trip.name = req.body.name;
-	trip.destination = req.body.destination.formatted_address;
-	trip.transportation = req.body.transportation;
-	//optional
-	trip.accomodation_addr = req.body.accomAddr ? req.body.accomAddr.formatted_address : "";
-	// TODO figure out why this never sets the leg
-	trip.legs = req.body.legs;
-
-	var info = trip.validateModel();
 	if(!info.valid){
 		return res.status(400).json({message: info.err});
 	}	
-	trip.save(function(err, trip){
+	trip_doc.save(function(err, trip){
+		if(err){ 
+			if(err.code === 11000){
+				return res.status(400).json({message: "Trip with that name already exists!"});
+			}
+			// TODO update to log to logger
+			return next(err); 
+		}
+
 		var user = User.findOne({email: req.payload.email}, function(err, user){
-			if(err){ return next(err); }
+			if(err){ 
+				// TODO update to log this
+				return next(err); 
+			}
 
 			user.trips.push(trip);
 			user.save(function(err){

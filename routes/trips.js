@@ -6,7 +6,7 @@ var User = mongoose.model('User');
 
 var tripRouter = express.Router();
 
-var construct_trip = function(trip, is_leg){
+var construct_trip = function(trip, is_leg, start_date, end_date){
 	var start_date = new Date(trip.start_date);
 	var end_date = new Date(trip.end_date);
 
@@ -22,7 +22,14 @@ var construct_trip = function(trip, is_leg){
 	trip_doc.transportation = trip.transportation;
 	trip_doc.accomodation_addr = trip.accomAddr ? trip.accomAddr.formatted_address : "";
 
-	return {trip_doc: trip_doc, info: trip_doc.validateModel(is_leg)}; 
+	if(is_leg){
+		var info = trip_doc.validateLeg(start_date, end_date); 
+	}
+	else {
+		var info = trip_doc.validateTrip();
+	}
+
+	return {trip_doc: trip_doc, info: info}; 
 };
 
 tripRouter.get('/', function(req, res, next) {
@@ -46,6 +53,21 @@ tripRouter.post('/create', function(req, res, next){
 	var trip = construct_trip(req.body, false);
 	var trip_doc = trip.trip_doc;
 	var info = trip.info;
+
+	var legs = req.body.legs;
+	for(var i = 0; i < legs.length; i++){
+		var trip_start_date = trip_doc.start_date;
+		var trip_end_date = trip_doc.end_date;
+		var trip_leg = construct_trip(legs[i], true, trip_start_date, trip_end_date);
+		var trip_leg_doc = trip_leg.trip_doc;
+		var leg_info = trip_leg.info;
+		if(!leg_info.valid){
+			return res.status(400).json({message: leg_info.err})
+		}
+		else{
+			console.log("time to save");
+		}
+	}
 
 	if(!info.valid){
 		return res.status(400).json({message: info.err});

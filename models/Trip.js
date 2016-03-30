@@ -12,35 +12,32 @@ var TripSchema = new mongoose.Schema({
 	legs: [{type: mongoose.Schema.Types.ObjectId, ref: 'Trip'}]
 });
 
-TripSchema.methods.validateModel = function(){
-	console.log(this);
+TripSchema.methods.validateTrip = function(){
+
 	if(!this.destination){
 		return {valid: false, err: 'You need to pick a valid destination.'};
 	}
-
 	if(this.end_date < this.start_date){
 		return {valid: false, err: 'Your end date must be after or the same as the start date.'};
 	}
 
-	for(i = 0; i < this.legs.length; i++){
-		var leg = this.legs[i];
-		console.log(leg);
-		if(!leg.destination){
-			return {valid: false, err: 'You need to pick a valid destination.'};
-		}
-
-		if(leg.end_date < leg.start_date){
-			return {valid: false, err: 'Your end date must be after or the same as the start date for leg ' + leg.name};
-		}
-
-		if(leg.start_date < this.start_date || leg.start_date > leg.end_date
-			|| leg.end_date < this.start_date || leg.end_date > leg.end_date){
-			return {valid: false, err: 'The leg must be during the trip.'};
-		}
-	}
-	
-	
 	// TODO make sure the date isn't in the past
+	return {valid: true};
+};
+
+TripSchema.methods.validateLeg = function(start_date, end_date){
+	if(!this.destination){
+		return {valid: false, err: 'You need to pick a valid destination for ' + leg.name};
+	}
+
+	if(this.end_date < this.start_date){
+		return {valid: false, err: 'Your end date must be after or the same as the start date for leg ' + leg.name};
+	}
+
+	if(this.start_date < start_date || this.start_date > this.end_date
+		|| this.end_date < start_date || this.end_date > end_date){
+		return {valid: false, err: 'Leg ' + leg.name + ' must be during the trip.'};
+	}
 	return {valid: true};
 };
 

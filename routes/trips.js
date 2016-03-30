@@ -23,6 +23,7 @@ tripRouter.get('/:trip', function(req, res, next){
 })
 
 tripRouter.post('/create', function(req, res, next){
+	//console.log(req.body);
 	var start_date = new Date(req.body.start_date);
 	var end_date = new Date(req.body.end_date);
 

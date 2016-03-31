@@ -25,18 +25,18 @@ TripSchema.methods.validateTrip = function(){
 	return {valid: true};
 };
 
-TripSchema.methods.validateLeg = function(start_date, end_date){
+TripSchema.methods.validateLeg = function(trip_start_date, trip_end_date){
 	if(!this.destination){
-		return {valid: false, err: 'You need to pick a valid destination for ' + leg.name};
+		return {valid: false, err: 'You need to pick a valid destination for \"' + this.name + "\"."};
 	}
 
 	if(this.end_date < this.start_date){
-		return {valid: false, err: 'Your end date must be after or the same as the start date for leg ' + leg.name};
+		return {valid: false, err: 'Your end date must be after or the same as the start date for leg \"' + this.name + "\"."};
 	}
 
-	if(this.start_date < start_date || this.start_date > this.end_date
-		|| this.end_date < start_date || this.end_date > end_date){
-		return {valid: false, err: 'Leg ' + leg.name + ' must be during the trip.'};
+	if(this.start_date < trip_start_date || this.start_date > trip_end_date
+		|| this.end_date < trip_start_date || this.end_date > trip_end_date){
+		return {valid: false, err: 'Leg \"' + this.name + '\" must be during the trip.'};
 	}
 	return {valid: true};
 };

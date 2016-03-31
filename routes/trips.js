@@ -2,11 +2,12 @@ var express = require('express');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var Trip = mongoose.model('Trip');
+var TripLeg = mongoose.model('TripLeg');
 var User = mongoose.model('User');
 
 var tripRouter = express.Router();
 
-var construct_trip = function(trip, is_leg, trip_start_date, trip_end_date){
+var construct_trip = function(trip){
 	var start_date = new Date(trip.start_date);
 	var end_date = new Date(trip.end_date);
 
@@ -22,12 +23,29 @@ var construct_trip = function(trip, is_leg, trip_start_date, trip_end_date){
 	trip_doc.transportation = trip.transportation;
 	trip_doc.accomodation_addr = trip.accomAddr ? trip.accomAddr.formatted_address : "";
 
-	if(is_leg){
-		var info = trip_doc.validateLeg(trip_start_date, trip_end_date); 
+	var info = trip_doc.validateTrip();
+
+	return {trip_doc: trip_doc, info: info}; 
+};
+
+var construct_leg = function(trip, trip_start_date, trip_end_date){
+	// TODO change to more appropriate var names
+	var start_date = new Date(trip.start_date);
+	var end_date = new Date(trip.end_date);
+
+	if(trip.same_day){
+		end_date = start_date;
 	}
-	else {
-		var info = trip_doc.validateTrip();
-	}
+
+	var trip_doc = new TripLeg();
+	trip_doc.start_date = trip.start_date;
+	trip_doc.end_date = trip.end_date;
+	trip_doc.name = trip.name;
+	trip_doc.destination = trip.destination.formatted_address;
+	trip_doc.transportation = trip.transportation;
+	trip_doc.accomodation_addr = trip.accomAddr ? trip.accomAddr.formatted_address : "";
+
+	var info = trip_doc.validateLeg(trip_start_date, trip_end_date);
 
 	return {trip_doc: trip_doc, info: info}; 
 };
@@ -49,25 +67,38 @@ tripRouter.get('/:trip', function(req, res, next){
 })
 
 tripRouter.post('/create', function(req, res, next){
-	var trip = construct_trip(req.body, false),
+	var trip = construct_trip(req.body),
 		trip_doc = trip.trip_doc,
 		info = trip.info,
 		legs = req.body.legs,
 		trip_start_date = trip_doc.start_date,
 		trip_end_date = trip_doc.end_date;
 
+	var leg_docs = [];
 	for(var i = 0; i < legs.length; i++){
-		var trip_leg = construct_trip(legs[i], true, trip_start_date, trip_end_date),
+		var trip_leg = construct_leg(legs[i], trip_start_date, trip_end_date),
 			trip_leg_doc = trip_leg.trip_doc,
 			leg_info = trip_leg.info;
 		
 		if(!leg_info.valid){
 			return res.status(400).json({message: leg_info.err})
 		}
-		else{
-			console.log("time to save");
+		else {
+			leg_docs.push(trip_leg_doc);
 		}
 	}
+
+	// TODO make sure the legs are saving correctly in relation to trip
+	TripLeg.create(leg_docs, function(err){
+		if(err){
+			// TODO update to log to logger
+			console.log(err);
+			return res.status(400).json({message: "Oops! Something went wrong with a trip leg."});
+		}
+		for(i = 1; i < arguments.length; i++){
+			trip_doc.legs.push(arguments[i]._id);
+		}
+	})
 
 	if(!info.valid){
 		return res.status(400).json({message: info.err});

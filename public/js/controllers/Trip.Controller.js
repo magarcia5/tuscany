@@ -34,8 +34,8 @@ function(
 		destination: {
 			formatted_address: "Oxnard, CA, USA"
 		},
-		end_date: new Date("Tue Jan 05 2016 00:00:00 GMT-0800 (PST)"),
 		start_date: new Date("Tue Jan 01 2016 00:00:00 GMT-0800 (PST)"),
+		end_date: new Date("Tue Jan 05 2016 00:00:00 GMT-0800 (PST)"),
 		name: "Mel's Trip",
 		transportation: "car",
 		legs: []
@@ -47,8 +47,8 @@ function(
 		destination: {
 			formatted_address: "Santa Monica, CA, USA"
 		},
-		end_date: new Date("Tue Jan 03 2016 00:00:00 GMT-0800 (PST)"),
 		start_date: new Date("Tue Jan 02 2016 00:00:00 GMT-0800 (PST)"),
+		end_date: new Date("Tue Jan 04 2016 00:00:00 GMT-0800 (PST)"),
 		name: "Day Trip",
 		transportation: "car"
 	});
@@ -61,15 +61,16 @@ function(
 
 	$scope.saveTrip = function(){
 		//TODO hide end date if user selects the same day for start and end
-		$scope.newTrip.destination = tripDestAutoComplete.getPlace();
-		$scope.newTrip.accomAddr = tripAccomAutoComplete.getPlace();
+		// COMMENTED OUT FOR TESTING PURPOSES ONLY
+		//$scope.newTrip.destination = tripDestAutoComplete.getPlace();
+		//$scope.newTrip.accomAddr = tripAccomAutoComplete.getPlace();
 
 		var verifyFields = trip.verifyAllFieldsPresent($scope.newTrip);
 		if(verifyFields.valid){
 			trip.createTrip($scope.newTrip)
 			.error(function(error){
 				$scope.tripError = error;
-				$timeout(function(){ $scope.tripError = null; }, 2000);
+				$timeout(function(){ $scope.tripError = null; }, 4000);
 			})
 			.success(function(data){
 				$state.go('home');
@@ -77,7 +78,7 @@ function(
 		}
 		else{
 			$scope.tripError = verifyFields;
-			$timeout(function(){ $scope.tripError = null }, 2000);
+			$timeout(function(){ $scope.tripError = null }, 4000);
 		}
 	};
 
@@ -104,8 +105,9 @@ function(
 	};
 
 	$scope.saveLeg = function(){
-		$scope.leg.destination = legDestAutoComplete.getPlace();
-		$scope.leg.accomAddr = legAccomAutoComplete.getPlace();
+		// COMMENTED OUT FOR TESTING PURPOSES ONLY
+		// $scope.leg.destination = legDestAutoComplete.getPlace();
+		// $scope.leg.accomAddr = legAccomAutoComplete.getPlace();
 
 		var verifyFields = trip.verifyAllFieldsPresent($scope.leg);
 		if(verifyFields.valid){

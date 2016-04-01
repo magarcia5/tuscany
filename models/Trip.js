@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var TripLeg = mongoose.model('TripLeg').schema;
 
 var TripSchema = new mongoose.Schema({
 	name: String,
@@ -9,7 +10,7 @@ var TripSchema = new mongoose.Schema({
 	accomodation_addr: String,
 	// TODO uncomment when you narrow down google autocomplete and can determine what type of address got selected
 	//accomodation_type: String,
-	legs: [{type: mongoose.Schema.Types.ObjectId, ref: 'TripLeg'}]
+	legs: [TripLeg]
 });
 
 TripSchema.methods.validateTrip = function(){

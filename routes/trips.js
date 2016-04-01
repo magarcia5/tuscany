@@ -28,26 +28,25 @@ var construct_trip = function(trip){
 	return {trip_doc: trip_doc, info: info}; 
 };
 
-var construct_leg = function(trip, trip_start_date, trip_end_date){
-	// TODO change to more appropriate var names
-	var start_date = new Date(trip.start_date);
-	var end_date = new Date(trip.end_date);
+var construct_leg = function(leg, trip_start_date, trip_end_date){
+	var start_date = new Date(leg.start_date);
+	var end_date = new Date(leg.end_date);
 
-	if(trip.same_day){
+	if(leg.same_day){
 		end_date = start_date;
 	}
 
-	var trip_doc = new TripLeg();
-	trip_doc.start_date = trip.start_date;
-	trip_doc.end_date = trip.end_date;
-	trip_doc.name = trip.name;
-	trip_doc.destination = trip.destination.formatted_address;
-	trip_doc.transportation = trip.transportation;
-	trip_doc.accomodation_addr = trip.accomAddr ? trip.accomAddr.formatted_address : "";
+	var leg_doc = new TripLeg();
+	leg_doc.start_date = leg.start_date;
+	leg_doc.end_date = leg.end_date;
+	leg_doc.name = leg.name;
+	leg.destination = leg.destination.formatted_address;
+	leg.transportation = leg.transportation;
+	leg.accomodation_addr = leg.accomAddr ? leg.accomAddr.formatted_address : "";
 
-	var info = trip_doc.validateLeg(trip_start_date, trip_end_date);
+	var info = leg_doc.validateLeg(trip_start_date, trip_end_date);
 
-	return {trip_doc: trip_doc, info: info}; 
+	return {leg_doc: leg_doc, info: info}; 
 };
 
 tripRouter.get('/', function(req, res, next) {
@@ -70,13 +69,13 @@ tripRouter.post('/create', function(req, res, next){
 	var trip = construct_trip(req.body),
 		trip_doc = trip.trip_doc,
 		info = trip.info,
-		legs = req.body.legs,
 		trip_start_date = trip_doc.start_date,
-		trip_end_date = trip_doc.end_date;
+		trip_end_date = trip_doc.end_date,
+		legs = req.body.legs;
 
 	for(var i = 0; i < legs.length; i++){
 		var trip_leg = construct_leg(legs[i], trip_start_date, trip_end_date),
-			trip_leg_doc = trip_leg.trip_doc,
+			trip_leg_doc = trip_leg.leg_doc,
 			leg_info = trip_leg.info;
 
 		if(!leg_info.valid){

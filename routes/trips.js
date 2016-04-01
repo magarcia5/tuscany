@@ -74,31 +74,18 @@ tripRouter.post('/create', function(req, res, next){
 		trip_start_date = trip_doc.start_date,
 		trip_end_date = trip_doc.end_date;
 
-	var leg_docs = [];
 	for(var i = 0; i < legs.length; i++){
 		var trip_leg = construct_leg(legs[i], trip_start_date, trip_end_date),
 			trip_leg_doc = trip_leg.trip_doc,
 			leg_info = trip_leg.info;
-		
+
 		if(!leg_info.valid){
 			return res.status(400).json({message: leg_info.err})
 		}
 		else {
-			leg_docs.push(trip_leg_doc);
+			trip_doc.legs.push(trip_leg_doc);
 		}
 	}
-
-	// TODO make sure the legs are saving correctly in relation to trip
-	TripLeg.create(leg_docs, function(err){
-		if(err){
-			// TODO update to log to logger
-			console.log(err);
-			return res.status(400).json({message: "Oops! Something went wrong with a trip leg."});
-		}
-		for(i = 1; i < arguments.length; i++){
-			trip_doc.legs.push(arguments[i]._id);
-		}
-	})
 
 	if(!info.valid){
 		return res.status(400).json({message: info.err});
@@ -109,9 +96,9 @@ tripRouter.post('/create', function(req, res, next){
 				return res.status(400).json({message: "Trip with that name already exists!"});
 			}
 			// TODO update to log to logger
+			console.log(err);
 			return next(err); 
 		}
-
 		var user = User.findOne({email: req.payload.email}, function(err, user){
 			if(err){ 
 				// TODO update to log this
@@ -125,6 +112,7 @@ tripRouter.post('/create', function(req, res, next){
 			});
 		});		
 	});
+
 });
 
 tripRouter.param('trip', function(req, res, next, id){

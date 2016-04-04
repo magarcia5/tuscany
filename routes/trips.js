@@ -40,9 +40,9 @@ var construct_leg = function(leg, trip_start_date, trip_end_date){
 	leg_doc.start_date = leg.start_date;
 	leg_doc.end_date = leg.end_date;
 	leg_doc.name = leg.name;
-	leg.destination = leg.destination.formatted_address;
-	leg.transportation = leg.transportation;
-	leg.accomodation_addr = leg.accomAddr ? leg.accomAddr.formatted_address : "";
+	leg_doc.destination = leg.destination.formatted_address;
+	leg_doc.transportation = leg.transportation;
+	leg_doc.accomodation_addr = leg.accomAddr ? leg.accomAddr.formatted_address : "";
 
 	var info = leg_doc.validateLeg(trip_start_date, trip_end_date);
 

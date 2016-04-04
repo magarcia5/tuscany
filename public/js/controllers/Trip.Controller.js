@@ -29,31 +29,31 @@ function(
   		legAccomAutoComplete = new google.maps.places.Autocomplete(legAccomInput);
 
 	$scope.title = "Create Trip";
-	$scope.newTrip = {
-		accomAddr: undefined, 
-		destination: {
-			formatted_address: "Oxnard, CA, USA"
-		},
-		start_date: new Date("Tue Jan 01 2016 00:00:00 GMT-0800 (PST)"),
-		end_date: new Date("Tue Jan 05 2016 00:00:00 GMT-0800 (PST)"),
-		name: "Mel's Trip",
-		transportation: "car",
-		legs: []
-	};
+	// $scope.newTrip = {
+	// 	accomAddr: undefined, 
+	// 	destination: {
+	// 		formatted_address: "San Francisco, CA, USA"
+	// 	},
+	// 	start_date: new Date("Tue Jan 01 2016 00:00:00 GMT-0800 (PST)"),
+	// 	end_date: new Date("Tue Jan 05 2016 00:00:00 GMT-0800 (PST)"),
+	// 	name: "Mel's Trip Two Legs, Same Day, 2+ Days",
+	// 	transportation: "car",
+	// 	legs: []
+	// };
 
-	// TODO figure out why this keeps getting reset when you hit enter when entering destination
-	$scope.newTrip.legs.push({
-		accomAddr: undefined, 
-		destination: {
-			formatted_address: "Santa Monica, CA, USA"
-		},
-		start_date: new Date("Tue Jan 02 2016 00:00:00 GMT-0800 (PST)"),
-		end_date: new Date("Tue Jan 04 2016 00:00:00 GMT-0800 (PST)"),
-		name: "Day Trip",
-		transportation: "car"
-	});
-	//$scope.newTrip = {};
-	//$scope.newTrip.legs = [];
+	// // TODO figure out why this keeps getting reset when you hit enter when entering destination
+	// $scope.newTrip.legs.push({
+	// 	accomAddr: undefined, 
+	// 	destination: {
+	// 		formatted_address: "Santa Monica, CA, USA"
+	// 	},
+	// 	start_date: new Date("Tue Jan 02 2016 00:00:00 GMT-0800 (PST)"),
+	// 	end_date: new Date("Tue Jan 04 2016 00:00:00 GMT-0800 (PST)"),
+	// 	name: "Day Trip",
+	// 	transportation: "car"
+	// });
+	$scope.newTrip = {};
+	$scope.newTrip.legs = [];
 	$scope.leg = {};
 	$scope.updating = false;
 	$scope.disableCreate = false;
@@ -62,8 +62,8 @@ function(
 	$scope.saveTrip = function(){
 		//TODO hide end date if user selects the same day for start and end
 		// COMMENTED OUT FOR TESTING PURPOSES ONLY
-		//$scope.newTrip.destination = tripDestAutoComplete.getPlace();
-		//$scope.newTrip.accomAddr = tripAccomAutoComplete.getPlace();
+		$scope.newTrip.destination = tripDestAutoComplete.getPlace();
+		$scope.newTrip.accomAddr = tripAccomAutoComplete.getPlace();
 
 		var verifyFields = trip.verifyAllFieldsPresent($scope.newTrip);
 		if(verifyFields.valid){
@@ -101,13 +101,15 @@ function(
 	$scope.cancelLeg = function(){
 		$scope.showLegForm = false;
 		$scope.disableCreate = false;
+		legDestInput.value = "";
+		legAccomInput.value = "";
 		$scope.leg = {};
 	};
 
 	$scope.saveLeg = function(){
 		// COMMENTED OUT FOR TESTING PURPOSES ONLY
-		// $scope.leg.destination = legDestAutoComplete.getPlace();
-		// $scope.leg.accomAddr = legAccomAutoComplete.getPlace();
+		$scope.leg.destination = legDestAutoComplete.getPlace();
+		$scope.leg.accomAddr = legAccomAutoComplete.getPlace();
 
 		var verifyFields = trip.verifyAllFieldsPresent($scope.leg);
 		if(verifyFields.valid){
@@ -115,6 +117,8 @@ function(
 			$scope.showLegForm = false;
 			$scope.newTrip.legs.push($scope.leg);
 			$scope.leg = {};		
+			legDestInput.value = "";
+			legAccomInput.value = "";
 			$scope.successMsg = "Leg added!";
 			$timeout(function(){ $scope.successMsg = null; }, 2000);	
 		}
@@ -132,6 +136,8 @@ function(
 			$scope.newTrip.legs[indexOf] = $scope.leg;
 			$scope.updating = false;
 			$scope.showLegForm = false;
+			legDestInput.value = "";
+			legAccomInput.value = "";
 			$scope.leg = {};
 			$scope.successMsg = "Leg updated!";
 			$timeout(function(){ $scope.successMsg = null; }, 2000);

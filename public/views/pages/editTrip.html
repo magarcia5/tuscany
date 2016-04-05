@@ -4,8 +4,8 @@
         <h1>Edit Trip</h1>
     </div>
 
-    <div ng-show="error" class="alert alert-danger row">
-        <span>{{error.message}}</span>
+    <div ng-show="tripError" class="alert alert-danger row">
+        <span>{{tripError.message}}</span>
     </div>
 
     <div class"row">
@@ -13,44 +13,41 @@
             <form style="margin-top: 30px;">
                 <div class="row info-box">
                     <label>Name:</label>
-                    <span ng-hide="editName" ng-model="tripToEdit.name">{{tripToEdit.name}}</span>
-                    <input type="text" class="form-control" ng-show="editName" ng-model="updatedTrip.name">
-                    <button ng-click="editName = editName ? false : true;" class="btn btn-warn pull-right">Edit</button>  
+                    <input type="text" class="form-control" ng-model="tripToEdit.name" placeholder="Trip Name">
                 </div>
 
                 <div class="row info-box">
                     <label>Start Date:</label>
-                    <span ng-hide="editStartDate" ng-model="tripToEdit.start_date">{{tripToEdit.start_date}}</span><br>
-                    <div ng-show="editStartDate">
-                        <input type="date" class="form-control" ng-model="updatedTrip.start_date">
-                        <input type="checkbox" name="same-day" ng-model="updatedTrip.same_day"> Return same day</input>
-                    </div>
-                    <button ng-click="editStartDate = editStartDate ? false : true;" class="btn btn-warn pull-right">Edit</button>
+                    <input type="date" class="form-control" ng-model="tripToEdit.start_date">
+                    <input type="checkbox" name="same-day" ng-model="tripToEdit.same_day"> Return same day</input>
                 </div>
 
-                <div ng-show="updatedTrip.same_day" class="row info-box">
-                    <label>Same Day:</label>
-                    <span ng-hide="editSameDay">{{ updatedTrip.same_day }}</span>
-                    <button ng-click="updatedTrip.same_day = false; editEndDate = true;  " class="btn btn-warn pull-right">Edit</button>
-                </div>
-                
-                <div class="row info-box" ng-hide="updatedTrip.same_day">
+                <div class="row info-box" ng-hide="tripToEdit.same_day">
                     <label>End Date:</label>
-                    <span ng-hide="editEndDate" ng-model="trip.end_date">{{tripToEdit.end_date}}</span>
-                    <input type="date" class="form-control" ng-show="editEndDate" ng-model="updatedTrip.end_date">
-                    <button ng-click="editEndDate = editEndDate ? false : true;" class="btn btn-warn pull-right">Edit</button>
+                    <input type="date" class="form-control" ng-model="tripToEdit.end_date">
                 </div>
 
                 <div class="row info-box">
                     <label>Destination:</label>
-                    <span ng-hide="editDestination" ng-model="trip.destination">{{tripToEdit.destination}}</span>
-                    <input id="edit-auto-complete" class="form-control" ng-show="editDestination" ng-model="updatedTrip.destination">
-                    <button ng-click="editDestination = editDestination ? false : true;" class="btn btn-warn pull-right">Edit</button>
+                    <input id="edit-dest-auto-complete" class="form-control" ng-model="tripToEdit.destination">
                 </div>
 
-                <button ng-click="cancelUpdate()" class="btn btn-danger">Cancel</button>
-                <button class="btn btn-primary">Add Leg</button>
-                <button ng-click="updateTrip()" class="btn btn-primary">Save</button>
+                <div class="row info-box">
+                    <label class="radio-inline"><input type="radio" ng-model="tripToEdit.transportation" value="car">Drive</label>
+                    <label class="radio-inline"><input type="radio" ng-model="tripToEdit.transportation" value="plane">Fly</label>
+                    <label class="radio-inline"><input type="radio" ng-model="tripToEdit.transportation" value="train">Train</label>
+                    <label class="radio-inline"><input type="radio" ng-model="tripToEdit.transportation" value="walk">Walk</label>
+                    <label class="radio-inline"><input type="radio" ng-model="tripToEdit.transportation" value="bike">Bike</label>
+                </div>
+
+                <div class="row info-box">
+                    <label>Accomdations:</label>
+                    <input id="edit-accom-auto-complete" class="form-control" ng-model="tripToEdit.accomAdrr" placeholder="Where are you staying?">
+                </div>
+
+                <button type="button" ng-click="cancelUpdate()" class="btn btn-danger">Cancel</button>
+                <button type="button" class="btn btn-primary">Add Leg</button>
+                <button type="button" ng-click="updateTrip()" class="btn btn-primary">Save</button>
             </form>
         </div>
     </div>

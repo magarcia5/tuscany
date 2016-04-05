@@ -13,9 +13,8 @@ var TripLegSchema = new mongoose.Schema({
 
 TripLegSchema.methods.validateLeg = function(trip_start_date, trip_end_date){
 	// console.log("Validating trip.");
-	// console.log("Trip start: " + trip_start_date);
-	// console.log("Trip end: " + trip_end_date);
 	// console.log(this);
+	// TODO make sure multiple leg trips dont overlap
 	if(!this.destination){
 		return {valid: false, err: 'You need to pick a valid destination for \"' + this.name + "\"."};
 	}

@@ -166,31 +166,50 @@ function(
 	trip
 ){
 	$scope.tripToEdit = tripToEdit;
-	$scope.updatedTrip = {};
 
-	$scope.editName = false;
-	$scope.editStartDate = false;
-	$scope.editEndDate = false;
-	$scope.editDestination = false;
+	$scope.tripToEdit.start_date = new Date($scope.tripToEdit.start_date);
 
-	var d1 = new Date($scope.tripToEdit.start_date);
-	var d2 = new Date($scope.tripToEdit.end_date);
-	$scope.updatedTrip.same_day = d1.getTime() === d2.getTime();
+	if(!$scope.tripToEdit.end_date){
+		$scope.tripToEdit.same_day = true;
+	}
+	else{
+		$scope.tripToEdit.end_date = new Date($scope.tripToEdit.end_date);	
+	} 
 
-	var input = angular.element(document.querySelector("#edit-auto-complete"))[0];
-	var autocomplete = new google.maps.places.Autocomplete(input);
+	var destInput = angular.element(document.querySelector("#edit-dest-auto-complete"))[0],
+		destAutoComplete = new google.maps.places.Autocomplete(destInput),
+
+		accomInput = angular.element(document.querySelector("#edit-accom-auto-complete"))[0],
+		accomAutoComplete = new google.maps.places.Autocomplete(accomInput);
 
 	$scope.cancelUpdate = function(){
 		$state.go('home');
 	}
 
 	$scope.updateTrip = function(){
-		trip.updateTrip($scope.tripToEdit._id, $scope.updatedTrip)
-		.error(function(err){
-			$scope.error = err;
-		})
-		.success(function(data){
-			$state.go('home');
-		});
+		var destination = destAutoComplete.getPlace();
+		var accom = accomAutoComplete.getPlace();
+
+		if(destination){
+			$scope.tripToEdit.destination = destination;
+		}
+		if(accom){
+			$scope.tripToEdit.accomAddr = accom;
+		}
+
+		var verify = trip.verifyAllFieldsPresent($scope.tripToEdit, "edit");
+		if(verify.valid){
+			trip.updateTrip($scope.tripToEdit._id, $scope.tripToEdit)
+			.error(function(err){
+				$scope.error = err;
+			})
+			.success(function(data){
+				$state.go('home');
+			});
+		}
+		else {
+			$scope.tripError = verify;
+			$timeout(function(){ $scope.tripError = null; }, 4000);
+		}
 	}
 }]);

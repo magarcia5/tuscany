@@ -4,7 +4,7 @@ var TripLegSchema = new mongoose.Schema({
 	name: String,
 	start_date: Date,
 	end_date: Date,
-	destination: String,
+	destination: mongoose.Schema.Types.Mixed,
 	transportation: String,
 	accomodation_addr: String
 	// TODO uncomment when you narrow down google autocomplete and can determine what type of address got selected
@@ -15,7 +15,7 @@ TripLegSchema.methods.validateLeg = function(trip_start_date, trip_end_date){
 	// console.log("Validating trip.");
 	// console.log(this);
 	// TODO make sure multiple leg trips dont overlap
-	if(!this.destination){
+	if(!this.destination.formatted_address){
 		return {valid: false, err: 'You need to pick a valid destination for \"' + this.name + "\"."};
 	}
 

@@ -5,7 +5,7 @@ var TripSchema = new mongoose.Schema({
 	name: String,
 	start_date: Date,
 	end_date: Date,
-	destination: String,
+	destination: mongoose.Schema.Types.Mixed,
 	transportation: String,
 	accomodation_addr: String,
 	// TODO uncomment when you narrow down google autocomplete and can determine what type of address got selected
@@ -15,7 +15,7 @@ var TripSchema = new mongoose.Schema({
 
 TripSchema.methods.validateTrip = function(){
 
-	if(!this.destination){
+	if(!this.destination.formatted_address){
 		return {valid: false, err: 'You need to pick a valid destination.'};
 	}
 	if(this.end_date < this.start_date){

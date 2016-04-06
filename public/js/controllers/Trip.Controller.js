@@ -168,6 +168,8 @@ function(
 	trip
 ){
 	$scope.tripToEdit = tripToEdit;
+	$scope.tripToEdit.destination = $scope.tripToEdit.destination.formatted_address;
+	$scope.tripToEdit.accomAddr = $scope.tripToEdit.accomAddr ? $scope.tripToEdit.accomAddr.formatted_address : "";
 
 	$scope.tripToEdit.start_date = new Date($scope.tripToEdit.start_date);
 

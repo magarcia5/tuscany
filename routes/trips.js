@@ -19,7 +19,7 @@ var construct_trip = function(trip){
 	trip_doc.start_date = trip.start_date;
 	trip_doc.end_date = trip.end_date;
 	trip_doc.name = trip.name;
-	trip_doc.destination = trip.destination.formatted_address;
+	trip_doc.destination = {"formatted_address": trip.destination.formatted_address};
 	trip_doc.transportation = trip.transportation;
 	trip_doc.accomodation_addr = trip.accomAddr ? trip.accomAddr.formatted_address : "";
 
@@ -37,10 +37,10 @@ var construct_leg = function(leg, trip_start_date, trip_end_date){
 	}
 
 	var leg_doc = new TripLeg();
-	leg_doc.start_date = leg.start_date;
-	leg_doc.end_date = leg.end_date;
+	leg_doc.start_date = start_date;
+	leg_doc.end_date = end_date;
 	leg_doc.name = leg.name;
-	leg_doc.destination = leg.destination.formatted_address;
+	leg_doc.destination = {"formatted_address": leg.destination.formatted_address};
 	leg_doc.transportation = leg.transportation;
 	leg_doc.accomodation_addr = leg.accomAddr ? leg.accomAddr.formatted_address : "";
 
@@ -143,36 +143,8 @@ tripRouter.post('/:trip/delete', function(req, res, next){
 });
 
 tripRouter.put('/:trip/update', function(req, res, next){
-	// Some of the fields get set to null if the user clicks edit but doesn't update. 
-	// This filters out null values so the document doesn't get updated will null values.
-	for(var key in req.body){
-		if(req.body[key] === null){
-			delete req.body[key];
-		}
-	}
-
-	if(Object.keys(req.body).length === 0){
-		return res.status(400).json({message: 'No fields to update! '});
-	}
-
-	var updated = req.trip;
-	for(var key in req.body){
-		updated[key] = req.body[key];
-	}
-
-	if(updated.same_day){
-		updated.end_date = updated.start_date;
-	}
-
-	info = updated.validate();
-	if(!info.valid){
-		return res.status(400).json({message: info.err});
-	}
-
-	req.trip.update(updated, function(err, trip){
-		if(err){ return next(err); }
-		res.json(trip);
-	});
+	// fixing validation and then ill come back to this
+	res.json({message: "update coming soon"});
 });
 
 module.exports = tripRouter;

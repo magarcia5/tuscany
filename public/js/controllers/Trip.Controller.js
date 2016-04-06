@@ -154,15 +154,17 @@ var editTripController = angular.module('editTripController', []);
 
 editTripController.controller('EditTripCtrl', [
 	'$scope',
+	'$state',
+	'$timeout',
 	'tripToEdit',
 	'auth',
-	'$state',
 	'trip',
 function(
 	$scope,
+	$state,
+	$timeout,
 	tripToEdit,
 	auth,
-	$state,
 	trip
 ){
 	$scope.tripToEdit = tripToEdit;
@@ -199,9 +201,10 @@ function(
 
 		var verify = trip.verifyAllFieldsPresent($scope.tripToEdit, "edit");
 		if(verify.valid){
+			console.log("update");
 			trip.updateTrip($scope.tripToEdit._id, $scope.tripToEdit)
 			.error(function(err){
-				$scope.error = err;
+				$scope.tripError = err;
 			})
 			.success(function(data){
 				$state.go('home');

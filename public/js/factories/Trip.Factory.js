@@ -7,9 +7,6 @@ function(
 ){
 	var trip = {};
 	var REQUIRED_TRIP_FIELDS = ["name", "destination", "start_date", "transportation"];
-	// Destination doesnt need to be verified when editing bc the obj from the db isnt a valid google place yet.
-	// The controller will make sure it doesn't get updated unless its a valid google place tho.
-	var REQUIRED_TRIP_FIELDS_EDIT = ["name", "start_date", "transportation"];
 	
 	trip.get = function(id){
 		return $http.get('/trips/' + id, { headers: auth.header }).then(function(res){
@@ -39,16 +36,9 @@ function(
 	};
 
 	trip.verifyAllFieldsPresent = function(trip, mode){
-		var required_fields = [];
-		if(mode === "edit"){
-			required_fields = REQUIRED_TRIP_FIELDS_EDIT;
-		}
-		else{
-			required_fields = REQUIRED_TRIP_FIELDS;
-		}
-		for(i = 0; i < required_fields.length; i++){
-			if(!(required_fields[i] in trip) || !trip[required_fields[i]]){
-				return {valid: false, message: "Oops! You're missing field " + required_fields[i]};
+		for(i = 0; i < REQUIRED_TRIP_FIELDS.length; i++){
+			if(!(REQUIRED_TRIP_FIELDS[i] in trip) || !trip[REQUIRED_TRIP_FIELDS[i]]){
+				return {valid: false, message: "Oops! You're missing field " + REQUIRED_TRIP_FIELDS[i]};
 			}
 		}
 		if (!trip.same_day && !trip.end_date){

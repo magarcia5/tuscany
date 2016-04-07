@@ -26,7 +26,12 @@ function(
 	  	// TODO narrow this one by destination in first autocomplete 
 	  	// TODO narrow by place
   		legDestAutoComplete = new google.maps.places.Autocomplete(legDestInput),
-  		legAccomAutoComplete = new google.maps.places.Autocomplete(legAccomInput);
+  		legAccomAutoComplete = new google.maps.places.Autocomplete(legAccomInput),
+
+  		emptyLeg = {
+  			'accomAddr': '',
+  			'destination': ''
+  		};
 
 	$scope.title = "Create Trip";
 	// $scope.newTrip = {
@@ -52,34 +57,37 @@ function(
 	// 	name: "Day Trip",
 	// 	transportation: "car"
 	// });
-	$scope.newTrip = {};
+	$scope.newTrip = {
+		accomAddr: '',
+		destination: ''
+	};
 	$scope.newTrip.legs = [];
-	$scope.leg = {};
+	$scope.leg = emptyLeg;
 	$scope.updating = false;
 	$scope.disableCreate = false;
 	$scope.showLegForm = false;
 
 	$scope.saveTrip = function(){
 		//TODO hide end date if user selects the same day for start and end
-		// COMMENTED OUT FOR TESTING PURPOSES ONLY
-		$scope.newTrip.destination = tripDestAutoComplete.getPlace();
-		$scope.newTrip.accomAddr = tripAccomAutoComplete.getPlace();
+		var destination = tripDestAutoComplete.getPlace(),
+			accom = tripAccomAutoComplete.getPlace();
 
-		var verifyFields = trip.verifyAllFieldsPresent($scope.newTrip);
-		if(verifyFields.valid){
-			trip.createTrip($scope.newTrip)
-			.error(function(error){
-				$scope.tripError = error;
-				$timeout(function(){ $scope.tripError = null; }, 4000);
-			})
-			.success(function(data){
-				$state.go('home');
-			});
+		if(destination){
+			$scope.newTrip.destination = destination
 		}
-		else{
-			$scope.tripError = verifyFields;
-			$timeout(function(){ $scope.tripError = null }, 4000);
+		if(accom){
+			$scope.newTrip.accomAddr = accom;
 		}
+
+		trip.createTrip($scope.newTrip)
+		.error(function(error){
+			$scope.tripError = error;
+			$timeout(function(){ $scope.tripError = null; }, 4000);
+		})
+		.success(function(data){
+			$state.go('home');
+		});
+		
 	};
 
 	$scope.showLeg = function(){
@@ -103,29 +111,29 @@ function(
 		$scope.disableCreate = false;
 		legDestInput.value = "";
 		legAccomInput.value = "";
-		$scope.leg = {};
+		$scope.leg = emptyLeg;
 	};
 
 	$scope.saveLeg = function(){
 		// COMMENTED OUT FOR TESTING PURPOSES ONLY
-		$scope.leg.destination = legDestAutoComplete.getPlace();
-		$scope.leg.accomAddr = legAccomAutoComplete.getPlace();
+		var destination = legDestAutoComplete.getPlace();
+		var accom = legAccomAutoComplete.getPlace();
 
-		var verifyFields = trip.verifyAllFieldsPresent($scope.leg);
-		if(verifyFields.valid){
-			$scope.disableCreate = false;
-			$scope.showLegForm = false;
-			$scope.newTrip.legs.push($scope.leg);
-			$scope.leg = {};		
-			legDestInput.value = "";
-			legAccomInput.value = "";
-			$scope.successMsg = "Leg added!";
-			$timeout(function(){ $scope.successMsg = null; }, 2000);	
+		if(destination){
+			$scope.leg.destination = destination;
 		}
-		else{
-			$scope.legError = verifyFields;
-			$timeout(function() { $scope.legError = null; }, 2000);
+		if(accom){
+			$scope.leg.accomAddr = accom;
 		}
+
+		$scope.disableCreate = false;
+		$scope.showLegForm = false;
+		$scope.newTrip.legs.push($scope.leg);
+		$scope.leg = emptyLeg;		
+		legDestInput.value = "";
+		legAccomInput.value = "";
+		$scope.successMsg = "Leg added!";
+		$timeout(function(){ $scope.successMsg = null; }, 2000);	
 
 	};
 
@@ -138,7 +146,7 @@ function(
 			$scope.showLegForm = false;
 			legDestInput.value = "";
 			legAccomInput.value = "";
-			$scope.leg = {};
+			$scope.leg = emptyLeg;
 			$scope.successMsg = "Leg updated!";
 			$timeout(function(){ $scope.successMsg = null; }, 2000);
 		}

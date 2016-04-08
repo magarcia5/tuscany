@@ -26,9 +26,11 @@ var construct_document = function(trip, is_leg){
 	trip_doc.start_date = trip.start_date;
 	trip_doc.end_date = trip.end_date;
 	trip_doc.name = trip.name;
-	trip_doc.destination = {formatted_address: trip.destination.formatted_address};
 	trip_doc.transportation = trip.transportation;
-	trip_doc.accomodation_addr = {formatted_address: trip.accomAddr.formatted_address};
+	trip_doc.destination = {formatted_address: trip.destination.formatted_address};
+	if(trip.accomAddr){
+		trip_doc.accomodation_addr = {formatted_address: trip.accomAddr.formatted_address};
+	}
 
 	return trip_doc;
 };
@@ -36,7 +38,8 @@ var construct_document = function(trip, is_leg){
 var get_error_message = function(err){
 	var message = "";
 	for(field in err.errors){
-		message = message.concat(err.errors[field].message + "\n");
+		message = message.concat(err.errors[field].message);
+		break;
 	}
 	return message;
 }
@@ -77,12 +80,12 @@ tripRouter.post('/create', function(req, res, next){
 		}
 	}
 
+	console.log(trip);
 	trip.save(function(err, trip){
 		if(err){ 
 			if(err.code === 11000){
 				return res.status(400).json({message: "Trip with that name already exists!"});
 			}
-			// TODO update to log to logger
 			if(err.name === 'ValidationError'){
 				message = get_error_message(err);
 				return res.status(400).json({message: message});

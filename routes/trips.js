@@ -80,7 +80,6 @@ tripRouter.post('/create', function(req, res, next){
 		}
 	}
 
-	console.log(trip);
 	trip.save(function(err, trip){
 		if(err){ 
 			if(err.code === 11000){
